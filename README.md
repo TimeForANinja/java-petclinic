@@ -5,7 +5,7 @@ Spring petclinic project for university module "Testen und DevOps in der agilen 
 ## How to run
 0. If you haven't already; Install [Docker Desktop](https://www.docker.com/products/docker-desktop/)
 1. Clone this repository with `gh repo clone Fabian-Anna/java-petclinic`
-2. Start your CLI inside the cloned repositoriy's folder 
+2. Start your CLI in the cloned folder of the repository
     - To be specific: where the `docker-compose.yaml` is
 3. Type `docker compose up` into your CLI
     - This may take a while...
