@@ -9,6 +9,7 @@ Spring petclinic project for university module "Testen und DevOps in der agilen 
     - To be specific: where the `docker-compose.yaml` is
 3. Type `docker compose up` into your CLI
     - This may take a while...
+    - The application is running, when both containers in docker desktop are running
 4. You can now access the petclinic via [localhost:8080](http://localhost:8080/)
 
 ## Credits
