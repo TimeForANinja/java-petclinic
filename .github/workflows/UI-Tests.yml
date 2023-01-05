@@ -9,18 +9,10 @@ on:
 
 jobs:
   cypress-run:
-    runs-on: ubuntu-latest
-    services:
-      backend:
-        image: ./spring-petclinic-rest/Dockerfile
-        ports:
-          - 9966:9966
-
-      frontend:
-        image: ./spring-petclinic-angular/Dockerfile
-        ports:
-          - 8080:8080
-
+    runs-on: ubuntu-20.04
+    steps:
+      runs: docker compose up
+    
     container: cypress/browsers:node12.18.3-chrome87-ff82
     steps:
       - name: Checkout
