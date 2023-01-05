@@ -29,11 +29,11 @@ public class PetMapperImpl implements PetMapper {
         PetDto petDto = new PetDto();
 
         petDto.setOwnerId( petOwnerId( pet ) );
-        petDto.setName( pet.getName() );
         petDto.setBirthDate( pet.getBirthDate() );
-        petDto.setType( toPetTypeDto( pet.getType() ) );
         petDto.setId( pet.getId() );
-        petDto.setVisits( visitListToVisitDtoList( pet.getVisits() ) );
+        petDto.setName( pet.getName() );
+        petDto.type( toPetTypeDto( pet.getType() ) );
+        petDto.visits( visitListToVisitDtoList( pet.getVisits() ) );
 
         return petDto;
     }
@@ -106,8 +106,8 @@ public class PetMapperImpl implements PetMapper {
 
         PetTypeDto petTypeDto = new PetTypeDto();
 
-        petTypeDto.setName( petType.getName() );
         petTypeDto.setId( petType.getId() );
+        petTypeDto.setName( petType.getName() );
 
         return petTypeDto;
     }

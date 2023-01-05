@@ -66,10 +66,10 @@ public class UserMapperImpl implements UserMapper {
 
         User user = new User();
 
-        user.setUsername( userDto.getUsername() );
-        user.setPassword( userDto.getPassword() );
         user.setEnabled( userDto.getEnabled() );
+        user.setPassword( userDto.getPassword() );
         user.setRoles( roleDtoListToRoleSet( userDto.getRoles() ) );
+        user.setUsername( userDto.getUsername() );
 
         return user;
     }
@@ -82,10 +82,10 @@ public class UserMapperImpl implements UserMapper {
 
         UserDto userDto = new UserDto();
 
-        userDto.setUsername( user.getUsername() );
-        userDto.setPassword( user.getPassword() );
         userDto.setEnabled( user.getEnabled() );
+        userDto.setPassword( user.getPassword() );
         userDto.setRoles( roleSetToRoleDtoList( user.getRoles() ) );
+        userDto.username( user.getUsername() );
 
         return userDto;
     }

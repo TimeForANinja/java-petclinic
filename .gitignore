@@ -22,7 +22,8 @@
 .spring-petclinic-angular//out-tsc
 
 # dependencies
-.spring-petclinic-angular//node_modules
+#let's see if i can install cypress in this folder now
+#.spring-petclinic-angular//node_modules
 
 # IDEs and editors
 .spring-petclinic-angular//.idea
