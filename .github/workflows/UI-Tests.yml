@@ -28,8 +28,6 @@ jobs:
           echo 'DOCKERS SHIT FINISHED'
           chmod a+r /etc/apt/keyrings/docker.gpg
           echo 'DOCKERS UNMASK SHIT FINISHED'
-          apt-get --allow-releaseinfo-change update
-          echo 'APT UPDATE DIE 2 FINISHED'
           apt-get -y install docker-ce docker-ce-cli containerd.io docker-compose-plugin
           echo 'HALLELUJA DOCKER WURDE INSTALLIERT'
           docker compose up
