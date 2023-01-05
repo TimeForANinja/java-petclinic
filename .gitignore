@@ -1,11 +1,11 @@
 # Everything for the REST subdirectory
-.spring-petclinic-rest/target/*
+spring-petclinic-rest/target/*
 .spring-petclinic-rest/.settings/*
 .spring-petclinic-rest/.classpath
 .spring-petclinic-rest/.project
 .spring-petclinic-rest/.idea
 .spring-petclinic-rest/*.iml
-.spring-petclinic-rest/target
+spring-petclinic-rest/target
 
 .spring-petclinic-rest/generated/
 
@@ -23,7 +23,7 @@
 
 # dependencies
 #let's see if i can install cypress in this folder now
-#.spring-petclinic-angular//node_modules
+.spring-petclinic-angular//node_modules
 
 # IDEs and editors
 .spring-petclinic-angular//.idea
