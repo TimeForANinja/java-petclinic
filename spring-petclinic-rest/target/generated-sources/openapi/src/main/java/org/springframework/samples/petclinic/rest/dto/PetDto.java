@@ -29,7 +29,7 @@ import javax.annotation.Generated;
 
 @Schema(name = "Pet", description = "A pet.")
 @JsonTypeName("Pet")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-11-07T17:47:41.952807+01:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-01-05T13:25:09.341779100+01:00[Europe/Berlin]")
 public class PetDto {
 
   @JsonProperty("name")

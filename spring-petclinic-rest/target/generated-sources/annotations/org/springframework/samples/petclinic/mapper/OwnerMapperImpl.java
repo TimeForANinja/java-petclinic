@@ -29,13 +29,13 @@ public class OwnerMapperImpl implements OwnerMapper {
 
         OwnerDto ownerDto = new OwnerDto();
 
-        ownerDto.setFirstName( owner.getFirstName() );
-        ownerDto.setLastName( owner.getLastName() );
         ownerDto.setAddress( owner.getAddress() );
         ownerDto.setCity( owner.getCity() );
-        ownerDto.setTelephone( owner.getTelephone() );
+        ownerDto.setFirstName( owner.getFirstName() );
         ownerDto.setId( owner.getId() );
+        ownerDto.setLastName( owner.getLastName() );
         ownerDto.setPets( petListToPetDtoList( owner.getPets() ) );
+        ownerDto.telephone( owner.getTelephone() );
 
         return ownerDto;
     }
@@ -53,8 +53,8 @@ public class OwnerMapperImpl implements OwnerMapper {
         owner.setLastName( ownerDto.getLastName() );
         owner.setAddress( ownerDto.getAddress() );
         owner.setCity( ownerDto.getCity() );
-        owner.setTelephone( ownerDto.getTelephone() );
         owner.setPets( petDtoListToPetList( ownerDto.getPets() ) );
+        owner.setTelephone( ownerDto.getTelephone() );
 
         return owner;
     }

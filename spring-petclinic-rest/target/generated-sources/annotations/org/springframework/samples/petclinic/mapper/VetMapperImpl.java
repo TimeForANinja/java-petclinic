@@ -61,9 +61,9 @@ public class VetMapperImpl implements VetMapper {
         VetDto vetDto = new VetDto();
 
         vetDto.setFirstName( vet.getFirstName() );
-        vetDto.setLastName( vet.getLastName() );
-        vetDto.setSpecialties( specialtyListToSpecialtyDtoList( vet.getSpecialties() ) );
         vetDto.setId( vet.getId() );
+        vetDto.setLastName( vet.getLastName() );
+        vetDto.specialties( specialtyListToSpecialtyDtoList( vet.getSpecialties() ) );
 
         return vetDto;
     }
