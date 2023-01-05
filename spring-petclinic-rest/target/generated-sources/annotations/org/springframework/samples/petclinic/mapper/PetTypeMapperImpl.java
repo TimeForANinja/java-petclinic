@@ -50,8 +50,8 @@ public class PetTypeMapperImpl implements PetTypeMapper {
 
         PetTypeDto petTypeDto = new PetTypeDto();
 
-        petTypeDto.setName( petType.getName() );
         petTypeDto.setId( petType.getId() );
+        petTypeDto.setName( petType.getName() );
 
         return petTypeDto;
     }
