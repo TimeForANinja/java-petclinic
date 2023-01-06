@@ -58,3 +58,4 @@ spring-petclinic-rest/target
 .spring-petclinic-angular/.DS_Store
 .spring-petclinic-angular/Thumbs.db
 .spring-petclinic-angular/*.iml
+spring-petclinic-rest/target/classes/META-INF/build-info.properties
