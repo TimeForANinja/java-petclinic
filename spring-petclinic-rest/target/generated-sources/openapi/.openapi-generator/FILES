@@ -1,4 +1,3 @@
-.openapi-generator-ignore
 README.md
 pom.xml
 src/main/java/org/springframework/samples/petclinic/rest/api/ApiUtil.java
