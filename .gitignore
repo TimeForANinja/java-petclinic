@@ -5,7 +5,7 @@ spring-petclinic-rest/.classpath
 spring-petclinic-rest/.project
 spring-petclinic-rest/.idea
 spring-petclinic-rest/*.iml
-spring-petclinic-rest/target
+spring-petclinic-rest/target/
 
 spring-petclinic-rest/generated/
 
