@@ -16,5 +16,6 @@ jobs:
       - name: build backend
         run: |
           cd spring-petclinic-rest
-          mvnw spring-boot:run
+          dos2unix mvnw
+          ./mvnw spring-boot:run
           echo 'WORKED'
