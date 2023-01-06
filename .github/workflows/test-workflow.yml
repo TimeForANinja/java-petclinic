@@ -1,5 +1,4 @@
-name: Cypress Tests using Cypress Docker Image
-
+name: test workflow
 on:
   push:
     branches:
