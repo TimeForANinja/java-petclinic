@@ -14,11 +14,9 @@ pipeline {
         stage('Install dependencies') {
             steps {
                 sh '''
-                    ls
                     cd spring-petclinic-angular
-                    pwd
-                    ls
                     npm install --legacy-peer-deps
+                    npm audit fix --force
                     cd ..
                 '''
             }
