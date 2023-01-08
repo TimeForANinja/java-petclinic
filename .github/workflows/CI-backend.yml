@@ -1,0 +1,26 @@
+name: UI-Tests with Cypress
+
+on:
+  push:
+    branches:
+      - 'integrate-cypress-CI'
+    workflow-dispatch:
+
+jobs:
+  Cypress-run:
+    runs-on: ubuntu-latest
+
+    container: cypress/browsers:node12.18.3-chrome87-ff82
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 11
+        uses: actions/setupo-java@v2
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+          cache: maven
+      
+      - name: Build backend with Maven
+        run: mvn -B install --file pom.xml
