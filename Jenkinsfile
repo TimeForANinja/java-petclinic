@@ -13,14 +13,14 @@ pipeline {
         stage('Install dependencies') {
             steps {
                 // Navigate to frontend folder
-                bat """
+                bat '''
                     ls
                     cd spring-petclinic-angular
                     pwd
                     ls
                     npm install --legacy-peer-deps
                     cd ..
-                """
+                '''
             }
         }
 
