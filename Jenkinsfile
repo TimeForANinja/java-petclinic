@@ -7,6 +7,7 @@ pipeline {
     tools {
         maven 'mvn_v3_8_6'
         nodejs 'NodeJS_v18.13.0'
+        docker 'docker'
     }
 
     stages {
