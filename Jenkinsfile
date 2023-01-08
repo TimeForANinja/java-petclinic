@@ -13,7 +13,7 @@ pipeline {
         stage('Install dependencies') {
             steps {
                 // Navigate to frontend folder
-                bat '''
+                sh '''
                     ls
                     cd spring-petclinic-angular
                     pwd
