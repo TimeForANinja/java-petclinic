@@ -1,9 +1,6 @@
 name: UI-Tests with Cypress
 
 on:
-  push:
-    branches:
-      - 'integrate-cypress-CI'
     workflow-dispatch:
 
 jobs:
