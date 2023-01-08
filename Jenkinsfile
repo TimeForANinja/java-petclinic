@@ -14,7 +14,7 @@ pipeline {
             steps {
                 // Navigate to frontend folder
                 sh 'ls'
-                sh 'cd spring-petclinic-angular'
+                sh 'cd /var/jenkins_home/workspace/CI/spring-petclinic-angular'
                 sh 'pwd'
                 sh 'ls'
                 sh 'npm install --legacy-peer-deps'
