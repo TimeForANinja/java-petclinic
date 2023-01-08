@@ -11,10 +11,19 @@ pipeline {
 
     stages {
         stage('Install dependencies') {
+<<<<<<< Updated upstream
             // Navigate to frontend folder
             sh 'cd spring-petclinic-angular'
             sh 'npm ci'
             sh 'cd ..'
+=======
+            steps {
+                // Navigate to frontend folder
+                sh 'cd spring-petclinic-angular'
+                sh 'npm install --legacy-peer-deps'
+                sh 'cd ..'
+            }
+>>>>>>> Stashed changes
         }
 
         stage('Build backend') {
