@@ -6,7 +6,7 @@ pipeline {
 
     tools {
         maven 'mvn_v3_8_6'
-        nodejs 'NodeJS_v18.13.0'
+        nodejs 'NodeJS_v16.13.0'
         'org.jenkinsci.plugins.docker.commons.tools.DockerTool' 'docker'
     }
 
@@ -16,7 +16,6 @@ pipeline {
                 sh '''
                     cd spring-petclinic-angular
                     npm install --legacy-peer-deps
-                    npm audit fix --force
                     cd ..
                 '''
             }
