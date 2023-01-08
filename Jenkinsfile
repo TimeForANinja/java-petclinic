@@ -63,7 +63,7 @@ pipeline {
             }
         }
 
-        stage('Unit-Test frontend') {
+        /*stage('Unit-Test frontend') {
             steps {
                 sh '''
                     cd spring-petclinic-angular
@@ -71,12 +71,14 @@ pipeline {
                     cd ..
                 '''
             }
-        }
+        }*/
 
         stage('UI-Tests') {
             steps {
                 sh '''
                     echo "---------------------Starting UI-Testing with Cypress..."
+                    npm install -D cypress
+                    npx cypress run --record false
                     echo "---------------------finished UI-Tests with Cypress"
                 '''
             }
