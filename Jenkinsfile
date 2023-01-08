@@ -12,7 +12,6 @@ pipeline {
     stages {
         stage('Install dependencies') {
             steps {
-                // Navigate to frontend folder
                 sh '''
                     ls
                     cd spring-petclinic-angular
@@ -26,50 +25,62 @@ pipeline {
 
         stage('Build backend') {
             steps {
-                echo '---------------------Building backend...'
-                sh 'cd spring-petclinic-rest'
-                sh 'mvn -B install --file pom.xml'
-                sh 'cd ..'
-                echo '---------------------Done building backend'
+            sh '''
+                echo "---------------------Building backend..."
+                cd spring-petclinic-rest
+                mvn -B install --file pom.xml
+                cd ..
+                echo "---------------------Done building backend"
+            '''
             }
             
         }
 
         stage('Unit-Test backend') {
             steps {
-                echo '---------------------Unit-testing backend...'
-                echo '---------------------finished unit-testing backend'
+                sh '''
+                    echo "---------------------Unit-testing backend..."
+                    echo "---------------------finished unit-testing backend"
+                '''
             }
         }
 
         stage('Build frontend') {
             steps {
-                sh 'cd spring-petclinic-angular'
-                sh 'npm run build --if-present -- --prod'
-                sh 'cd ..'
+                sh '''
+                    cd spring-petclinic-angular
+                    npm run build --if-present -- --prod
+                    cd ..
+                '''
             }
         }
 
         stage('Lint frontend') {
             steps {
-                sh 'cd spring-petclinic-angular'
-                sh 'npm run lint'
-                sh 'cd ..'
+                sh '''
+                    cd spring-petclinic-angular
+                    npm run lint
+                    cd ..
+                '''
             }
         }
 
         stage('Unit-Test frontend') {
             steps {
-                sh 'cd spring-petclinic-angular'
-                sh 'npm run test-headless'
-                sh 'cd ..'
+                sh '''
+                    cd spring-petclinic-angular
+                    npm run test-headless
+                    cd ..
+                '''
             }
         }
 
         stage('UI-Tests') {
             steps {
-                echo '---------------------Starting UI-Testing with Cypress...'
-                echo '---------------------finished UI-Tests with Cypress'
+                sh '''
+                    echo "---------------------Starting UI-Testing with Cypress..."
+                    echo "---------------------finished UI-Tests with Cypress"
+                '''
             }
         }
 
