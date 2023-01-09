@@ -15,7 +15,7 @@ services:
     working_dir: /app
     volumes:
       - ./testing/:/app
-    entrypoint: ./delayed-run.sh --config baseUrl=http://frontend:8080
+    entrypoint: /bin/bash delayed-run.sh --config baseUrl=http://frontend:8080
     depends_on:
       - frontend
       - backend

@@ -8,9 +8,8 @@ on:
   workflow_dispatch:
 
 jobs:
- cypress-run:
+  cypress-run:
     runs-on: ubuntu-latest
-
     steps:
       - name: checkout
         uses: actions/checkout@v3
@@ -20,3 +19,10 @@ jobs:
 
       - name: run cypress
         run: docker compose -f docker-compose.testing.yml up --exit-code-from cypress
+
+  artifacts:
+    name: ${CI_JOB_NAME}-${CI_COMMIT_REF_NAME}
+    paths:
+      - testing/cypress/screenshots
+      - testing/cypress/videos
+    when: always
