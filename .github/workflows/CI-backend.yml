@@ -1,23 +1,30 @@
-name: UI-Tests with Cypress
+name: Cypress Tests using Cypress Docker Image
 
 on:
-    workflow-dispatch:
+  push:
+    branches:
+      - 'develop'
+     # - 'main'
+  workflow_dispatch:
 
 jobs:
-  Cypress-run:
+  cypress-run:
     runs-on: ubuntu-latest
-
-    container: cypress/browsers:node12.18.3-chrome87-ff82
     steps:
-      - name: Checkout
+      - name: checkout
         uses: actions/checkout@v3
 
-      - name: Set up JDK 11
-        uses: actions/setupo-java@v2
+      - name: pre-build docker compose images
+        run: docker compose -f docker-compose.testing.yml build
+
+      - name: run cypress
+        run: docker compose -f docker-compose.testing.yml up --exit-code-from cypress
+
+      - name: upload artifacts
+        if: always()
+        uses: actions/upload-artifact@master
         with:
-          java-version: '11'
-          distribution: 'adopt'
-          cache: maven
-      
-      - name: Build backend with Maven
-        run: mvn -B install --file pom.xml
+          name: cypress-for-branch-${{ github.ref_name }}
+          path: |
+            testing/cypress/screenshots
+            testing/cypress/videos
