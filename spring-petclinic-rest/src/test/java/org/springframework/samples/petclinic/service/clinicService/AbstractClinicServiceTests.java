@@ -179,6 +179,7 @@ abstract class AbstractClinicServiceTests {
         Visit visit = new Visit();
         pet7.addVisit(visit);
         visit.setDescription("test");
+        visit.setVet(this.clinicService.findVetById(1));
         this.clinicService.saveVisit(visit);
         this.clinicService.savePet(pet7);
 
@@ -247,6 +248,7 @@ abstract class AbstractClinicServiceTests {
         visit.setPet(pet);
         visit.setDate(LocalDate.now());
         visit.setDescription("new visit");
+        visit.setVet(this.clinicService.findVetById(1));
 
 
         this.clinicService.saveVisit(visit);
