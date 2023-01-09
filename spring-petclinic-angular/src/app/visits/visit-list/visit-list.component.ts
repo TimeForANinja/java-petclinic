@@ -42,9 +42,7 @@ export class VisitListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.visitService.getVisits().subscribe(
-      visits => this.visits = visits,
-      error => this.errorMessage = error as any);
+    this.show5More();
   }
 
   editVisit(visit: Visit) {
@@ -61,6 +59,13 @@ export class VisitListComponent implements OnInit {
             this.noVisits = true;
           }
       },
+      error => this.errorMessage = error as any);
+  }
+
+  show5More(){
+    const minDate = Math.min(...this.visits.map(v => new Date(v.date).getTime()));
+    this.visitService.getVisits(minDate).subscribe(
+      visits => this.visits.push(...visits),
       error => this.errorMessage = error as any);
   }
 

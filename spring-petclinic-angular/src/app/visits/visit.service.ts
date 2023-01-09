@@ -39,7 +39,8 @@ export class VisitService {
     this.handlerError = httpErrorHandler.createHandleError('OwnerService');
   }
 
-  getVisits(): Observable<Visit[]> {
+  getVisits(minDate: number = Infinity): Observable<Visit[]> {
+  // wenn infinity dann erste 5, sonst +5
     return this.http.get<Visit[]>(this.entityUrl)
       .pipe(
         catchError(this.handlerError('getVisits', []))

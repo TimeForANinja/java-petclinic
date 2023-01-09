@@ -32,6 +32,7 @@ import {PetsRoutingModule} from '../pets/pets-routing.module';
 import {MatMomentDateModule, MomentDateAdapter} from '@angular/material-moment-adapter';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
+import { VisitOwnerDetailComponent } from './visit-owner-detail/visit-owner-detail.component';
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -57,12 +58,14 @@ export const MY_DATE_FORMATS = {
   declarations: [
     VisitListComponent,
     VisitEditComponent,
-    VisitAddComponent
+    VisitAddComponent,
+    VisitOwnerDetailComponent
   ],
   exports: [
     VisitListComponent,
     VisitEditComponent,
-    VisitAddComponent
+    VisitAddComponent,
+    VisitOwnerDetailComponent
   ],
   providers: [
     VisitService,
