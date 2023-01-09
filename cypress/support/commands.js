@@ -11,6 +11,15 @@
 //
 // -- This is a parent command --
 // Cypress.Commands.add('login', (email, password) => { ... })
+Cypress.Commands.add('addNewOwner', (firstName, lastName, address, city, telephone) => {
+    cy.get('#ownersTable > div > .btn').click();
+    cy.get('#firstName').type(firstName);
+    cy.get('#lastName').type(lastName);
+    cy.get('#address').type(address);
+    cy.get('#city').type(city);
+    cy.get('#telephone').type(telephone);
+    cy.get('[type="submit"]').click();
+})
 //
 //
 // -- This is a child command --
