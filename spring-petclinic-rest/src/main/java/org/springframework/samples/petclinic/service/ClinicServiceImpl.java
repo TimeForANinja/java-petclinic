@@ -284,7 +284,9 @@ public class ClinicServiceImpl implements ClinicService {
 		return visitRepository.findByPetId(petId);
 	}
 
-
-
-
+    @Override
+    @Transactional(readOnly = true)
+    public Collection<Visit> findAllVisitsByVetId(int vetId) {
+        return visitRepository.findAllVisitsByVetId(vetId);
+    }
 }
