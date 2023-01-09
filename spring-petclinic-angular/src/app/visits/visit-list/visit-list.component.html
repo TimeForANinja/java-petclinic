@@ -15,26 +15,30 @@
   ~  * limitations under the License.
   ~  */
   -->
+<div class="container-fluid">
+  <div class="container xd-container">
+    <h2>Visits</h2>
+    <table [hidden]="noVisits" class=" table table-condensed">
+      <thead>
+      <tr>
+        <th>Visit Date</th>
+        <th>Description</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tr *ngFor="let visit of visits">
+        <td>{{ visit.date }}</td>
+        <td>{{ visit.description }}</td>
+        <td>
+          <button class="btn btn-default" (click)="editVisit(visit)">Edit Visit</button>
+          <button class="btn btn-default" (click)="deleteVisit(visit)">Delete Visit</button>
+        </td>
+      </tr>
+    </table>
+    <button class="btn btn-default" >Load 5 more visits</button>
 
-<table [hidden]="noVisits" class=" table table-condensed">
-  <thead>
-  <tr>
-    <th>Visit Date</th>
-    <th>Description</th>
-    <th>Actions</th>
-  </tr>
-  </thead>
-  <tr *ngFor="let visit of visits">
-    <td>{{ visit.date }}</td>
-    <td>{{ visit.description }}</td>
-    <td>
-      <button class="btn btn-default" (click)="editVisit(visit)">Edit Visit</button>
-      <button class="btn btn-default" (click)="deleteVisit(visit)">Delete Visit</button>
-    </td>
-  </tr>
-</table>
-
-
+  </div>
+</div>
 
 
 

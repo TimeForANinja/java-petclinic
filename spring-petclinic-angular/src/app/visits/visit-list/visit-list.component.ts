@@ -42,6 +42,9 @@ export class VisitListComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.visitService.getVisits().subscribe(
+      visits => this.visits = visits,
+      error => this.errorMessage = error as any);
   }
 
   editVisit(visit: Visit) {
