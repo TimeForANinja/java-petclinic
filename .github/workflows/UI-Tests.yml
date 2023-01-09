@@ -18,4 +18,4 @@ jobs:
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
       - name: Cypress run
-        run: docker compose -f docker-compose.testing.yml up --exit-code-from cypress
+        run: docker compose -f docker-compose.testing.yaml up --exit-code-from cypress
