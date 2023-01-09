@@ -26,10 +26,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.samples.petclinic.mapper.VisitMapper;
-import org.springframework.samples.petclinic.model.Owner;
-import org.springframework.samples.petclinic.model.Pet;
-import org.springframework.samples.petclinic.model.PetType;
-import org.springframework.samples.petclinic.model.Visit;
+import org.springframework.samples.petclinic.model.*;
 import org.springframework.samples.petclinic.rest.advice.ExceptionControllerAdvice;
 import org.springframework.samples.petclinic.service.ClinicService;
 import org.springframework.samples.petclinic.service.clinicService.ApplicationTestConfig;
@@ -41,6 +38,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.mockito.BDDMockito.given;
@@ -86,6 +84,14 @@ class VisitRestControllerTests {
     	owner.setCity("McFarland");
     	owner.setTelephone("6085558763");
 
+
+    	Vet vet = new Vet();
+    	vet.setId(3);
+    	vet.setSpecialties(Arrays.asList(new Specialty[]{new Specialty("surgery"), new Specialty("dentistry")}));
+    	vet.setFirstName("Linda");
+    	vet.setLastName("Douglas");
+
+
     	PetType petType = new PetType();
     	petType.setId(2);
     	petType.setName("dog");
@@ -101,6 +107,7 @@ class VisitRestControllerTests {
     	Visit visit = new Visit();
     	visit.setId(2);
     	visit.setPet(pet);
+        visit.setVet(vet);
         visit.setDate(LocalDate.now());
     	visit.setDescription("rabies shot");
     	visits.add(visit);
@@ -108,6 +115,7 @@ class VisitRestControllerTests {
     	visit = new Visit();
     	visit.setId(3);
     	visit.setPet(pet);
+    	visit.setVet(vet);
         visit.setDate(LocalDate.now());
     	visit.setDescription("neutered");
     	visits.add(visit);
