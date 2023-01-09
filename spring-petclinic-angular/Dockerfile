@@ -6,7 +6,7 @@ WORKDIR /workspace/
 COPY . .
 # install dependencies & build
 RUN npm install
-RUN npm run build
+RUN npm run-script build:prod
 
 # second nginx container to serve finished frontend
 FROM nginx:1.17.6 AS runtime
