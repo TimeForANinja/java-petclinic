@@ -2136,8 +2136,18 @@ components:
               minimum: 0
               example: 1
               readOnly: true
+            vetId:
+              title: Vet ID
+              description: The ID of the vet.
+              type: integer
+              format: int32
+              minimum: 0
+              example: 1
+              readOnly: true
           required:
             - id
+            - vetId
+            - petId
     PetTypeFields:
       title: PetType fields
       description: Editable fields of a pet type.
