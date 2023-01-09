@@ -179,6 +179,7 @@ abstract class AbstractClinicServiceTests {
         Visit visit = new Visit();
         pet7.addVisit(visit);
         visit.setDescription("test");
+        visit.setVet(this.clinicService.findVetById(1));
         this.clinicService.saveVisit(visit);
         this.clinicService.savePet(pet7);
 
@@ -247,6 +248,7 @@ abstract class AbstractClinicServiceTests {
         visit.setPet(pet);
         visit.setDate(LocalDate.now());
         visit.setDescription("new visit");
+        visit.setVet(this.clinicService.findVetById(1));
 
 
         this.clinicService.saveVisit(visit);
@@ -468,6 +470,16 @@ abstract class AbstractClinicServiceTests {
 			specialty = null;
 		}
         assertThat(specialty).isNull();
+    }
+
+    @Test
+    void shouldFindAllVisitsByVets() {
+        Vet vet1 = this.clinicService.findVetById(1);
+        Vet vet3 = this.clinicService.findVetById(3);
+        Vet vet5 = this.clinicService.findVetById(5);
+        assertThat(this.clinicService.findAllVisitsByVetId(vet1.getId()).size() == 2);
+        assertThat(this.clinicService.findAllVisitsByVetId(vet3.getId()).size() == 1);
+        assertThat(this.clinicService.findAllVisitsByVetId(vet5.getId()).size() == 1);
     }
 
 
