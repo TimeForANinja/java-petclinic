@@ -1,10 +1,10 @@
 name: Cypress Tests using Cypress Docker Image
 
 on:
-  push:
-    branches:
-      - 'develop'
-     # - 'main'
+  #push:
+    #branches:
+      #- 'develop'
+      #- 'main'
   workflow_dispatch:
 
 jobs:
