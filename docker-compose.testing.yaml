@@ -12,3 +12,13 @@ services:
     build: ./spring-petclinic-angular/
     ports:
       - "8080:8080"
+
+  cypress:
+    image: cypress/included:12.3.0
+    working_dir: /app
+    volumes:
+      - ./testing/:/app
+    entrypoint: /bin/bash delayed-run.sh --config baseUrl=http://frontend:8080
+    depends_on:
+      - frontend
+      - backend

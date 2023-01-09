@@ -1,12 +1,12 @@
-name: Cypress Tests using Cypress Docker Image
+name: CI-UI-Tests
 # thanks to @TimeForANinjas patience to help me with this, it finally works
 # i am released from this hell that is called programming github actions
 
 on:
-  #push:
-    #branches:
-      #- 'develop'
-      #- 'main'
+  pull_request:
+    branches:
+      - 'main'
+      - 'develop'
   workflow_dispatch:
 
 jobs:
