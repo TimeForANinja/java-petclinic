@@ -12,10 +12,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: checkout
         uses: actions/checkout@v3
 
-      # Install NPM dependencies, cache them correctly
-      # and run all Cypress tests
-      - name: Cypress run
-        run: docker compose -f docker-compose.testing.yaml up --exit-code-from cypress
+      - name: pre-build docker compose images
+        run: docker compose -f docker-compose.testing.yml build
+
+      - name: run cypress
+        run: docker compose -f docker-compose.testing.yml up --exit-code-from cypress
