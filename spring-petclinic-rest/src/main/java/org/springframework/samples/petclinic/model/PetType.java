@@ -26,4 +26,13 @@ import javax.persistence.Table;
 @Table(name = "types")
 public class PetType extends NamedEntity {
 
+    public PetType(String string)
+    {
+        super(string);
+    }
+
+    public PetType()
+    {
+
+    }
 }
