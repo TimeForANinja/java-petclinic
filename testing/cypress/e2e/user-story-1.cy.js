@@ -4,8 +4,8 @@ describe('Delete an Owner', () => {
   beforeEach(() => {
     cy.visit('localhost:8080');
     // navigate to owners list
-    cy.get(':nth-child(2) > .dropdown-toggle').click();
-    cy.get('.open > .dropdown-menu > :nth-child(1) > a').click();
+    cy.contains('Owners').click();
+    cy.contains('Search').click();
   })
 
   it('Check if Delete Button exists', () => {
