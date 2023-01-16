@@ -50,6 +50,7 @@ export class VisitListComponent implements OnInit {
   }
 
   deleteVisit(visit: Visit) {
+  if(confirm("Are you sure you want to delete this visit?")) {
     this.visitService.deleteVisit(visit.id.toString()).subscribe(
       response => {
         this.responseStatus = response;
@@ -60,6 +61,7 @@ export class VisitListComponent implements OnInit {
           }
       },
       error => this.errorMessage = error as any);
+    }
   }
 
   show5More(){
