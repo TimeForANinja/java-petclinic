@@ -1,0 +1,15 @@
+http:
+  routers:
+    router-frontend:
+      rule: "!PathPrefix(`/petclinic/api/`)"
+      entryPoints: web
+      service: frontend-http
+
+  services:
+    frontend-http:
+      loadBalancer:
+        servers:
+          # you would normally use "http://frontend:4200"
+          # but "http://172.17.0.1:4200" should allow 
+          # to also host the frontend locally outside of docker
+          - url: "http://172.17.0.1:4200"

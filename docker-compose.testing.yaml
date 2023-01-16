@@ -11,14 +11,20 @@ services:
   frontend:
     build: ./spring-petclinic-angular/
     ports:
-      - "8080:8080"
+      - "4200:8080"
+
+  traefik:
+    build: ./proxy/
+    network_mode: "host"
+    ports:
+      - "80:80"
 
   cypress:
     image: cypress/included:12.3.0
     working_dir: /app
     volumes:
       - ./testing/:/app
-    entrypoint: /bin/bash delayed-run.sh --config baseUrl=http://frontend:8080
+    entrypoint: /bin/bash delayed-run.sh --config baseUrl=http://localhost:80
     depends_on:
       - frontend
       - backend

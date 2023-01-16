@@ -1,0 +1,15 @@
+http:
+  routers:
+    router-backend:
+      rule: "PathPrefix(`/petclinic/api/`)"
+      entryPoints: web
+      service: backend-http
+
+  services:
+    backend-http:
+      loadBalancer:
+        servers:
+          # you would normally use "http://backend:9966"
+          # but "http://172.17.0.1:9966" should allow
+          # to also host the backend locally outside of docker
+          - url: "http://172.17.0.1:9966"
