@@ -12,13 +12,21 @@
 // -- This is a parent command --
 // Cypress.Commands.add('login', (email, password) => { ... })
 Cypress.Commands.add('addNewOwner', (firstName, lastName, address, city, telephone) => {
-    cy.get('#ownersTable > div > .btn').click();
-    cy.get('#firstName').type(firstName);
-    cy.get('#lastName').type(lastName);
-    cy.get('#address').type(address);
-    cy.get('#city').type(city);
-    cy.get('#telephone').type(telephone);
-    cy.get('[type="submit"]').click();
+    cy.request(
+        'POST', 
+        'http://localhost:9966/petclinic/api/owners',
+        {
+            firstName: firstName,
+            lastName: lastName,
+            address: address,
+            city: city,
+            telephone: telephone
+        }
+    ).then(
+        (response) => {
+            expect(response.status).to.eq(201)
+        }
+    )
 })
 //
 //
