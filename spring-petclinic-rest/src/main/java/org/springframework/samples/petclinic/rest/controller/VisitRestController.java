@@ -54,6 +54,7 @@ public class VisitRestController implements VisitsApi {
 
     @PreAuthorize("hasRole(@roles.OWNER_ADMIN)")
     @Override
+    // TODO: Add/Edit JUnit Tests
     public ResponseEntity<List<VisitDto>> listVisits(Integer vetId) {
         Collection<Visit> visits;
         if (vetId != null) {

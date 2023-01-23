@@ -450,7 +450,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestError'
-  /owners/{ownerId}/pets/{petId}/visits:
+# TODO: Change request link in frontend
+  /owners/{ownerId}/pets/{petId}/vets/{vetId}/visits:
     post:
       tags:
         - visit
@@ -470,6 +471,15 @@ paths:
         - name: petId
           in: path
           description: The ID of the pet.
+          required: true
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+            example: 1
+        - name: vetId
+          in: path
+          description: The ID of the veterinarian.
           required: true
           schema:
             type: integer
@@ -2148,7 +2158,7 @@ components:
               readOnly: true
             vetId:
               title: Vet ID
-              description: The ID of the vet.
+              description: The ID of the veterinarian.
               type: integer
               format: int32
               minimum: 0
