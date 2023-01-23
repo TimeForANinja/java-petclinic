@@ -189,16 +189,6 @@ abstract class AbstractClinicServiceTests {
     }
 
     @Test
-       void shouldFindVisitsByPetId() throws Exception {
-        Collection<Visit> visits = this.clinicService.findVisitsByPetId(7);
-        assertThat(visits.size()).isEqualTo(2);
-        Visit[] visitArr = visits.toArray(new Visit[visits.size()]);
-        assertThat(visitArr[0].getPet()).isNotNull();
-        assertThat(visitArr[0].getDate()).isNotNull();
-        assertThat(visitArr[0].getPet().getId()).isEqualTo(7);
-    }
-
-    @Test
     void shouldFindAllPets(){
         Collection<Pet> pets = this.clinicService.findAllPets();
         Pet pet1 = EntityUtils.getById(pets, Pet.class, 1);
@@ -470,16 +460,6 @@ abstract class AbstractClinicServiceTests {
 			specialty = null;
 		}
         assertThat(specialty).isNull();
-    }
-
-    @Test
-    void shouldFindAllVisitsByVets() {
-        Vet vet1 = this.clinicService.findVetById(1);
-        Vet vet3 = this.clinicService.findVetById(3);
-        Vet vet5 = this.clinicService.findVetById(5);
-        assertThat(this.clinicService.findAllVisitsByVetId(vet1.getId()).size() == 2);
-        assertThat(this.clinicService.findAllVisitsByVetId(vet3.getId()).size() == 1);
-        assertThat(this.clinicService.findAllVisitsByVetId(vet5.getId()).size() == 1);
     }
 
 

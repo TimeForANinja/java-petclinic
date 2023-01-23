@@ -23,6 +23,8 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Visit;
 
+import java.util.List;
+
 /**
  * @author Vitaliy Fedoriv
  *
@@ -30,7 +32,7 @@ import org.springframework.samples.petclinic.model.Visit;
 
 @Profile("spring-data-jpa")
 public class SpringDataVisitRepositoryImpl implements VisitRepositoryOverride {
-	
+
 	@PersistenceContext
     private EntityManager em;
 
@@ -42,6 +44,5 @@ public class SpringDataVisitRepositoryImpl implements VisitRepositoryOverride {
             em.remove(visit);
         }
 	}
-
 
 }

@@ -44,11 +44,11 @@ public interface VisitRepository {
 
     List<Visit> findByPetId(Integer petId);
 
+    List<Visit> findByVetId(Integer vetId);
+
 	Visit findById(int id) throws DataAccessException;
 
 	Collection<Visit> findAll() throws DataAccessException;
-
-    Collection<Visit> findAllVisitsByVetId(Integer vetId);
 
 	void delete(Visit visit) throws DataAccessException;
 

@@ -16,6 +16,7 @@
 package org.springframework.samples.petclinic.service;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -94,6 +95,8 @@ public class ClinicServiceImpl implements ClinicService {
 		}
 		return visit;
 	}
+
+
 
 	@Override
 	@Transactional(readOnly = true)
@@ -286,7 +289,8 @@ public class ClinicServiceImpl implements ClinicService {
 
     @Override
     @Transactional(readOnly = true)
-    public Collection<Visit> findAllVisitsByVetId(int vetId) {
-        return visitRepository.findAllVisitsByVetId(vetId);
+    public Collection<Visit> findVisitsByVetId(int vetId) {
+        return visitRepository.findByVetId(vetId);
     }
+
 }
