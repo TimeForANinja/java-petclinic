@@ -30,6 +30,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -53,8 +54,13 @@ public class VisitRestController implements VisitsApi {
 
     @PreAuthorize("hasRole(@roles.OWNER_ADMIN)")
     @Override
-    public ResponseEntity<List<VisitDto>> listVisits() {
-        List<Visit> visits = new ArrayList<>(this.clinicService.findAllVisits());
+    public ResponseEntity<List<VisitDto>> listVisits(Integer vetId) {
+        Collection<Visit> visits;
+        if (vetId != null) {
+            visits = this.clinicService.findVisitsByVetId(vetId);
+        } else {
+            visits = this.clinicService.findAllVisits();
+        }
         if (visits.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

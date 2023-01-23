@@ -1018,6 +1018,16 @@ paths:
       operationId: listVisits
       summary: Lists visits
       description: Returns an array of visit .
+      parameters:
+        - name: vetId
+          in: query
+          description: Veterinarian ID
+          required: false
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+            example: 1
       responses:
         200:
           description: visits found and returned.
