@@ -177,7 +177,8 @@ class VisitRestControllerTests {
         mapper.registerModule(new JavaTimeModule());
         mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         String newVisitAsJSON = mapper.writeValueAsString(visitMapper.toVisitDto(newVisit));
-    	System.out.println("newVisitAsJSON " + newVisitAsJSON);
+    	// WTF; Again??? This is prod code! No println ffs!
+        // System.out.println("newVisitAsJSON " + newVisitAsJSON);
     	this.mockMvc.perform(post("/api/visits/")
     		.content(newVisitAsJSON).accept(MediaType.APPLICATION_JSON_VALUE).contentType(MediaType.APPLICATION_JSON_VALUE))
     		.andExpect(status().isCreated());
