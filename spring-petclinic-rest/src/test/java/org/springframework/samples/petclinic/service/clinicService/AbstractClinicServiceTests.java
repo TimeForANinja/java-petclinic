@@ -227,6 +227,18 @@ abstract class AbstractClinicServiceTests {
     }
 
     @Test
+    void shouldFindAllVisitsByVetId() {
+        Collection<Visit> vet1Visits = this.clinicService.findVisitsByVetId(1);
+        assertThat(vet1Visits.size() == 1);
+
+        Collection<Visit> vet3Visits = this.clinicService.findVisitsByVetId(3);
+        assertThat(vet3Visits.size() == 2);
+
+        Collection<Visit> vet5Visits = this.clinicService.findVisitsByVetId(5);
+        assertThat(vet5Visits.size() == 1);
+    }
+
+    @Test
     @Transactional
     void shouldInsertVisit() {
         Collection<Visit> visits = this.clinicService.findAllVisits();
