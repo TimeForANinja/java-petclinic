@@ -28,9 +28,11 @@ import {PetService} from '../../pets/pet.service';
 import {Pet} from '../../pets/pet';
 import {PetType} from '../../pettypes/pettype';
 import {Owner} from '../../owners/owner';
+import {Vet} from '../../vets/vet';
 
 import * as moment from 'moment';
 import {OwnerService} from '../../owners/owner.service';
+import {VetService}from '../../vets/vet.service';
 
 @Component({
   selector: 'app-visit-add',
@@ -43,22 +45,29 @@ export class VisitAddComponent implements OnInit {
   currentPet: Pet;
   currentOwner: Owner;
   currentPetType: PetType;
+  currentVet: Vet;
   addedSuccess = false;
   errorMessage: string;
+  vets: Vet[];
 
   constructor(private visitService: VisitService,
               private petService: PetService,
               private ownerService: OwnerService,
+              private vetService: VetService,
               private router: Router,
               private route: ActivatedRoute) {
     this.visit = {} as Visit;
     this.currentPet = {} as Pet;
     this.currentOwner = {} as Owner;
     this.currentPetType = {} as PetType;
-
+    this.currentVet = {} as Vet;
   }
 
   ngOnInit() {
+    this.vetService.getVets().subscribe(
+      vets => this.vets = vets,
+      error => this.errorMessage = error as any);
+
     console.log(this.route.parent);
     const petId = this.route.snapshot.params.id;
     this.petService.getPetById(petId).subscribe(
@@ -66,6 +75,7 @@ export class VisitAddComponent implements OnInit {
         this.currentPet = pet;
         this.visit.pet = this.currentPet;
         this.currentPetType = this.currentPet.type;
+        //this.vetsService.getVets().subscribe(vets => this.currentVet = vet,);
         this.ownerService.getOwnerById(pet.ownerId).subscribe(
           owner => {
             this.currentOwner = owner;

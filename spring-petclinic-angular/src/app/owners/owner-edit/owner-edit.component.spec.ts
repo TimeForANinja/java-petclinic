@@ -88,13 +88,26 @@ describe('OwnerEditComponent', () => {
     expect(router.navigate).toHaveBeenCalledWith(['/owners', 1]);
   });
 
- 
   it('update owner', async(() => {
     let buttons = fixture.debugElement.queryAll(By.css('button'));
     let updateOwnerButton = buttons[1].nativeElement;
     spyOn(component, 'onSubmit');
     updateOwnerButton.click();
     expect(component.onSubmit).toHaveBeenCalled();
+  }));
+
+  it('delete owner', async(() => {
+    let buttons = fixture.debugElement.queryAll(By.css('button'));
+    let deleteOwnerButton = buttons[2].nativeElement;
+
+    const og_confirm = window.confirm;
+    window.confirm = ()=>true;
+
+    spyOn(component, 'openDialog');
+    deleteOwnerButton.click();
+    expect(component.openDialog).toHaveBeenCalled();
+
+    window.confirm = og_confirm;
   }));
 
 });

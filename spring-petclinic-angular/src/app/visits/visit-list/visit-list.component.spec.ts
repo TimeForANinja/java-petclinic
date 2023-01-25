@@ -34,17 +34,22 @@ import {Visit} from '../visit';
 import {Pet} from '../../pets/pet';
 import {Observable, of} from 'rxjs';
 import Spy = jasmine.Spy;
+import { By } from '@angular/platform-browser';
 
 class VisitServiceStub {
   deleteVisit(visitId: string): Observable<number> {
     return of();
   }
+  getVisits(): Observable<number> {
+      return of();
+    }
 }
 
 describe('VisitListComponent', () => {
   let component: VisitListComponent;
   let fixture: ComponentFixture<VisitListComponent>;
   let visitService: VisitService;
+  let visits: Visit[];
   let testVisits: Visit[];
   let testPet: Pet;
   let spy: Spy;
@@ -98,6 +103,9 @@ describe('VisitListComponent', () => {
     spy = spyOn(visitService, 'deleteVisit')
       .and.returnValue(of(responseStatus));
 
+    spy = spyOn(visitService, 'getVisits')
+          .and.returnValue(of(visits));
+
     fixture.detectChanges();
   });
 
@@ -106,9 +114,22 @@ describe('VisitListComponent', () => {
   });
 
   it('should call deleteVisit() method', () => {
+    const og_confirm = window.confirm;
+    window.confirm = ()=>true;
+
     fixture.detectChanges();
     component.deleteVisit(component.visits[0]);
     expect(spy.calls.any()).toBe(true, 'deleteVisit called');
+
+    window.confirm = og_confirm;
+  });
+
+  it('should call show5More() method', () => {
+    let buttons = fixture.debugElement.queryAll(By.css('button'));
+    let show5MoreButton = buttons[2].nativeElement;
+    spyOn(component, 'show5More');
+    show5MoreButton.click();
+    expect(component.show5More).toHaveBeenCalled();
   });
 
 });
