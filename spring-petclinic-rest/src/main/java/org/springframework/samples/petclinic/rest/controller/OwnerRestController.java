@@ -148,7 +148,6 @@ public class OwnerRestController implements OwnersApi {
 
     @PreAuthorize("hasRole(@roles.OWNER_ADMIN)")
     @Override
-    // TODO: Add/Edit JUnit tests
     public ResponseEntity<VisitDto> addVisitToOwner(Integer ownerId, Integer petId, Integer vetId, VisitFieldsDto visitFieldsDto) {
         HttpHeaders headers = new HttpHeaders();
         Visit visit = visitMapper.toVisit(visitFieldsDto);

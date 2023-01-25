@@ -39,6 +39,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import static org.mockito.BDDMockito.given;
@@ -156,6 +157,37 @@ class VisitRestControllerTests {
         	.andExpect(jsonPath("$.[0].description").value("rabies shot"))
         	.andExpect(jsonPath("$.[1].id").value(3))
         	.andExpect(jsonPath("$.[1].description").value("neutered"));
+    }
+
+    @Test
+    @WithMockUser(roles="OWNER_ADMIN")
+    void testGetAllVisitsByVetIdSuccess() throws Exception {
+        for (Visit v : visits) {
+            if (v.getVet().getId() != 3) {
+                visits.remove(v.getId());
+            }
+        }
+        given(this.clinicService.findVisitsByVetId(3)).willReturn(visits);
+        this.mockMvc.perform(get("/api/visits?vetId=3")
+                .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType("application/json"))
+            .andExpect(jsonPath("$.[0].id").value(2))
+            .andExpect(jsonPath("$.[0].description").value("rabies shot"))
+            .andExpect(jsonPath("$.[0].vetId").value(3))
+            .andExpect(jsonPath("$.[1].id").value(3))
+            .andExpect(jsonPath("$.[1].description").value("neutered"))
+            .andExpect(jsonPath("$.[1].vetId").value(3));
+    }
+
+    @Test
+    @WithMockUser(roles="OWNER_ADMIN")
+    void testGetAllVisitsByVetIdNotFound() throws Exception {
+        visits.clear();
+        given(this.clinicService.findVisitsByVetId(3)).willReturn(visits);
+        this.mockMvc.perform(get("/api/visits?vetId=3")
+                .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isNotFound());
     }
 
     @Test

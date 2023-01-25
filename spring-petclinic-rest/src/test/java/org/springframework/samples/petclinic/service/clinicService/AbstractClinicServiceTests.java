@@ -24,6 +24,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -211,6 +212,20 @@ abstract class AbstractClinicServiceTests {
     }
 
     @Test
+    @Transactional
+    void shouldDeletePetVisits(){
+        Pet pet = this.clinicService.findPetById(7);
+        int visitsAmount = this.clinicService.findVisitsByPetId(pet.getId()).size();
+        this.clinicService.deletePet(pet);
+        try {
+            visitsAmount = this.clinicService.findVisitsByPetId(pet.getId()).size();
+        } catch (Exception e) {
+            visitsAmount = 0;
+        }
+        assertThat(visitsAmount).isEqualTo(0);
+    }
+
+    @Test
     void shouldFindVisitDyId(){
     	Visit visit = this.clinicService.findVisitById(1);
     	assertThat(visit.getId()).isEqualTo(1);
@@ -335,6 +350,25 @@ abstract class AbstractClinicServiceTests {
     }
 
     @Test
+    @Transactional
+    void shouldDeleteVetVisits(){
+        Vet vet = this.clinicService.findVetById(3);
+        int visitAmount = this.clinicService.findVisitsByVetId(vet.getId()).size();
+
+        // Testdata to be deleted is needed so fail if no visits exist
+        assertThat(visitAmount).isNotEqualTo(0);
+
+        this.clinicService.deleteVet(vet);
+        try {
+            visitAmount = this.clinicService.findVisitsByVetId(vet.getId()).size();
+        } catch (Exception e) {
+            visitAmount = 0;
+        }
+
+        assertThat(visitAmount).isEqualTo(0);
+    }
+
+    @Test
     void shouldFindAllOwners(){
         Collection<Owner> owners = this.clinicService.findAllOwners();
         Owner owner1 = EntityUtils.getById(owners, Owner.class, 1);
@@ -354,6 +388,22 @@ abstract class AbstractClinicServiceTests {
 			owner = null;
 		}
         assertThat(owner).isNull();
+    }
+
+    @Test
+    @Transactional
+    void shouldDeleteOwnerVisits() {
+        Owner owner = this.clinicService.findOwnerById(1);
+        Collection<Visit> ownersVisits = new ArrayList<>();
+        for ( Pet pet : owner.getPets()) {
+            Collection<Visit> visits = this.clinicService.findVisitsByPetId(pet.getId());
+            ownersVisits.addAll(visits);
+        }
+
+        this.clinicService.deleteOwner(owner);
+        Collection<Visit> visitsAfterDelete = this.clinicService.findAllVisits();
+
+        assertThat(visitsAfterDelete.containsAll(ownersVisits)).isFalse();
     }
 
     @Test
