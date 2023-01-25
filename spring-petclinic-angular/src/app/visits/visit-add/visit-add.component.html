@@ -70,9 +70,9 @@
         <div class="form-group has-feedback " >
           <label class="col-sm-2 control-label">Veterinarians</label>
           <div class="col-sm-10">
-            <select id="veterinarians" name="veterinarians" class="form-control">
+            <select [ngModel]="visit.vet" #vet="ngModel" name="vet" class="form-control">
               <option hidden selected></option>
-              <option *ngFor="let vet of vets" [value]="vet.id">{{vet.firstName}} {{vet.lastName}}</option>
+              <option *ngFor="let vet of vets" [ngValue]="vet">{{vet.firstName}} {{vet.lastName}}</option>
             </select>
           </div>
         </div>

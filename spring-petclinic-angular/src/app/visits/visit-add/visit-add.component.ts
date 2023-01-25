@@ -75,7 +75,6 @@ export class VisitAddComponent implements OnInit {
         this.currentPet = pet;
         this.visit.pet = this.currentPet;
         this.currentPetType = this.currentPet.type;
-        //this.vetsService.getVets().subscribe(vets => this.currentVet = vet,);
         this.ownerService.getOwnerById(pet.ownerId).subscribe(
           owner => {
             this.currentOwner = owner;
@@ -91,7 +90,8 @@ export class VisitAddComponent implements OnInit {
 
     // format output from datepicker to short string yyyy-mm-dd format (rfc3339)
     visit.date = moment(visit.date).format('YYYY-MM-DD');
-
+    console.log(visit.vet);
+    //visit.vetId = this.vetService.getVetById();
     this.visitService.addVisit(visit).subscribe(
       newVisit => {
         this.visit = newVisit;
