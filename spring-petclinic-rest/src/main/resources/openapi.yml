@@ -450,7 +450,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestError'
-# TODO: Change request link in frontend
   /owners/{ownerId}/pets/{petId}/vets/{vetId}/visits:
     post:
       tags:
