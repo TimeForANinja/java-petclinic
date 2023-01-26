@@ -1,9 +1,8 @@
 /// <reference types="Cypress" />
 
 describe("Show all visits for a vet", () => {
-
+/*
     it("Show visitdata for a vet", () => {
-        /*
         cy.visit("localhost:8080");
         cy.contains("Veterinarians").click();
         cy.contains("All").click();
@@ -16,11 +15,9 @@ describe("Show all visits for a vet", () => {
         cy.get("table").find("thead").contains("Visit Date").should("exist");
         cy.get("table").find("thead").contains("Description").should("exist");
         cy.get("table").find("thead").contains("Owner").should("exist");
-        */
     })
 
     it("Buttons exist in visit list", () => {
-        /*
         cy.visit("localhost:8080");
         cy.contains("Veterinarians").click();
         cy.contains("All").click();
@@ -35,7 +32,6 @@ describe("Show all visits for a vet", () => {
             cy.wrap($entry).contains("Delete Visit").should("exist");
             cy.wrap($entry).contains("Show Owner").should("exist");
         })
-        */
     })
 
     it("Delete visit has a confirmation", () => {
@@ -56,14 +52,26 @@ describe("Show all visits for a vet", () => {
         // Needed since cypress will press ok automatically otherwise and delete the visit
         cy.on("window:confirm", () => false);
     })
-
-    it("Show more visits still only shows 10 entries", async () => {
+*/
+    it("Show more visits adds 5 visits", async () => {
         // Create a veterinarian with more than 10 visits
         cy.addNewVet("Lisa", "Mabuse").then( (vetId) => {
-            cy.log(vetId);
+            // Create 15 visits
+            for (let index = 1; index <= 15; index++) {
+                let visitDate = new Date(Date.now());
+                visitDate.setDate(visitDate.getDate() - 7 + index);
+                cy.addNewVisit(1, 1, vetId, visitDate, "Testtermin " + index);
+            }
+
+            cy.visit("localhost:8080");
+            cy.contains("Veterinarians").click();
+            cy.contains("All").click();
+
+            cy.get("table").get("tbody").children().last().contains("Show Visits").click();
+            // TODO: Check if only 5 entries are shown
+            // TODO: Press Show more visits button
+            // TODO: Check if only 10 entries are shown
         });
-        //cy.visit("localhost:8080");
-        //cy.wrap(vetId);
     })
 
 })

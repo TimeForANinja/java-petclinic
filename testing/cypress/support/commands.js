@@ -10,11 +10,11 @@
 //
 //
 // -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
-Cypress.Commands.add('addNewOwner', (firstName, lastName, address, city, telephone) => {
+// Cypress.Commands.add("login", (email, password) => { ... })
+Cypress.Commands.add("addNewOwner", (firstName, lastName, address, city, telephone) => {
     cy.request(
-        'POST', 
-        'http://localhost:9966/petclinic/api/owners',
+        "POST", 
+        "http://localhost:9966/petclinic/api/owners",
         {
             firstName: firstName,
             lastName: lastName,
@@ -29,10 +29,10 @@ Cypress.Commands.add('addNewOwner', (firstName, lastName, address, city, telepho
     )
 })
 
-Cypress.Commands.add('addNewVet', (firstName, lastName) => {
+Cypress.Commands.add("addNewVet", (firstName, lastName) => {
     cy.request(
-        'POST', 
-        'http://localhost:9966/petclinic/api/vets',
+        "POST", 
+        "http://localhost:9966/petclinic/api/vets",
         {
             firstName: firstName,
             lastName: lastName,
@@ -41,23 +41,34 @@ Cypress.Commands.add('addNewVet', (firstName, lastName) => {
     ).then(
         (response) => {
             return response.body.id;
-            return new Promise(resolve => {
-                expect(response.status).to.eq(201);
-                let vetId = cy.wrap(response.body.id);
-                resolve(vetId);
-            })
+        }
+    )
+})
+
+Cypress.Commands.add("addNewVisit", (ownerId, petId, vetId, visitDate, visitDescription) => {
+    cy.request(
+        "POST", 
+        "http://localhost:9966/petclinic/api/owners/" + ownerId +
+            "/pets/" + petId + "/vets/" + vetId + "/visits",
+        {
+            date: visitDate,
+            description: visitDescription
+        }
+    ).then(
+        (response) => {
+            expect(response.status).to.eq(201)
         }
     )
 })
 //
 //
 // -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
+// Cypress.Commands.add("drag", { prevSubject: "element"}, (subject, options) => { ... })
 //
 //
 // -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
+// Cypress.Commands.add("dismiss", { prevSubject: "optional"}, (subject, options) => { ... })
 //
 //
 // -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+// Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
