@@ -38,8 +38,7 @@ describe("Show all visits for a vet", () => {
         */
     })
 
-    it("Delete visit has a confimation", () => {
-        /*
+    it("Delete visit has a confirmation", () => {
         cy.visit("localhost:8080");
         cy.contains("Veterinarians").click();
         cy.contains("All").click();
@@ -48,7 +47,18 @@ describe("Show all visits for a vet", () => {
         cy.get("#vets.table").find("tbody").children().first().contains("Show Visits").click();
 
         cy.get(".table > tr").first().contains("Delete Visit").click();
-        */
+
+        // Check for confirmation alert-window
+        cy.on("window:confirm", (txt) => {
+            expect(txt).to.contains("Are you sure you want to delete this visit?");
+        });
+
+        // Needed since cypress will press ok automatically otherwise and delete the visit
+        cy.on("window:confirm", () => false);
+    })
+
+    it("Show more visits still only shows 10 entries", () => {
+        // Create a veterinarian with more than 10 visits
     })
 
 })
