@@ -26,7 +26,7 @@
         <th>Actions</th>
       </tr>
       </thead>
-      <tr *ngFor="let visit of visits">
+      <tr *ngFor="let visit of visits" [visit]="visit" >
         <td>{{ visit.date }}</td>
         <td>{{ visit.description }}</td>
         <td>

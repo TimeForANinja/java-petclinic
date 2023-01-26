@@ -27,7 +27,7 @@ import {VisitEditComponent} from './visit-edit/visit-edit.component';
 import {VisitAddComponent} from './visit-add/visit-add.component';
 
 const visitRoutes: Routes = [
-  {path: 'visits', component: VisitListComponent},
+  {path: 'vet/:id/visits', component: VisitListComponent},
   {path: 'visits/add', component: VisitAddComponent},
   {path: 'visits/:id/edit', component: VisitEditComponent}
 

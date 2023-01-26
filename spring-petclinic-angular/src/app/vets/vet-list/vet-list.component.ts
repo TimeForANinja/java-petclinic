@@ -66,7 +66,7 @@ export class VetListComponent implements OnInit {
     this.router.navigate(['/vets', vet.id, 'edit']);
   }
 
-  showVisits() {
-    this.router.navigate(['/visits']);
+  showVisits(vet: Vet) {
+    this.router.navigate(['/vet', vet.id, 'visits']);
   }
 }

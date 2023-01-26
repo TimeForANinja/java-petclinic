@@ -40,12 +40,20 @@ export class VisitService {
   }
 
   getVisits(minDate: number = Infinity): Observable<Visit[]> {
+  //getVisits(): Observable<Visit[]> {
   // wenn infinity dann erste 5, sonst +5
     return this.http.get<Visit[]>(this.entityUrl)
       .pipe(
         catchError(this.handlerError('getVisits', []))
       );
   }
+
+  getVisitsByVetId(vetId: string): Observable<Visit[]> {
+  return this.http.get<Visit[]>(this.entityUrl+ '?vetId=' + vetId )
+        .pipe(
+          catchError(this.handlerError('getVisitsByVetId', []))
+        );
+    }
 
   getVisitById(visitId: string): Observable<Visit> {
     return this.http.get<Visit>(this.entityUrl + '/' + visitId)

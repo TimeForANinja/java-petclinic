@@ -23,7 +23,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Visit} from '../visit';
 import {VisitService} from '../visit.service';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-visit-list',
@@ -37,12 +37,16 @@ export class VisitListComponent implements OnInit {
   noVisits = false;
   errorMessage: string;
 
-  constructor(private router: Router, private visitService: VisitService) {
+  constructor(private router: Router, private visitService: VisitService, private route: ActivatedRoute,) {
     this.visits = [];
   }
 
   ngOnInit() {
-    this.show5More();
+    //this.show5More();
+    const vetId = this.route.snapshot.params.id;
+      this.visitService.getVisitsByVetId(vetId).subscribe(
+      visits => this.visits.push(...visits),
+      error => this.errorMessage = error as any);
   }
 
   editVisit(visit: Visit) {
