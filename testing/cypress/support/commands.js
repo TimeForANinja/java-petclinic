@@ -28,6 +28,27 @@ Cypress.Commands.add('addNewOwner', (firstName, lastName, address, city, telepho
         }
     )
 })
+
+Cypress.Commands.add('addNewVet', (firstName, lastName) => {
+    cy.request(
+        'POST', 
+        'http://localhost:9966/petclinic/api/vets',
+        {
+            firstName: firstName,
+            lastName: lastName,
+            specialties: []
+        }
+    ).then(
+        (response) => {
+            return response.body.id;
+            return new Promise(resolve => {
+                expect(response.status).to.eq(201);
+                let vetId = cy.wrap(response.body.id);
+                resolve(vetId);
+            })
+        }
+    )
+})
 //
 //
 // -- This is a child command --

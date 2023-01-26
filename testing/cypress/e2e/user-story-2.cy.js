@@ -57,8 +57,13 @@ describe("Show all visits for a vet", () => {
         cy.on("window:confirm", () => false);
     })
 
-    it("Show more visits still only shows 10 entries", () => {
+    it("Show more visits still only shows 10 entries", async () => {
         // Create a veterinarian with more than 10 visits
+        cy.addNewVet("Lisa", "Mabuse").then( (vetId) => {
+            cy.log(vetId);
+        });
+        //cy.visit("localhost:8080");
+        //cy.wrap(vetId);
     })
 
 })
