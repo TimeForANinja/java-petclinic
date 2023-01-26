@@ -32,6 +32,8 @@ import {ActivatedRoute, Router} from '@angular/router';
 })
 export class VisitListComponent implements OnInit {
 
+  max = 5;
+
   @Input() visits: Visit[];
   responseStatus: number;
   noVisits = false;
@@ -44,7 +46,7 @@ export class VisitListComponent implements OnInit {
   ngOnInit() {
     //this.show5More();
     const vetId = this.route.snapshot.params.id;
-      this.visitService.getVisitsByVetId(vetId).subscribe(
+    this.visitService.getVisitsByVetId(vetId).subscribe(
       visits => this.visits.push(...visits),
       error => this.errorMessage = error as any);
   }
@@ -69,10 +71,11 @@ export class VisitListComponent implements OnInit {
   }
 
   show5More(){
-    const minDate = Math.min(...this.visits.map(v => new Date(v.date).getTime()));
-    this.visitService.getVisits(minDate).subscribe(
-      visits => this.visits.push(...visits),
-      error => this.errorMessage = error as any);
+    this.max = this.max + 5;
+  }
+
+  visitsToShow(): Visit[] {
+    return this.visits.slice(0,this.max);
   }
 
 }
