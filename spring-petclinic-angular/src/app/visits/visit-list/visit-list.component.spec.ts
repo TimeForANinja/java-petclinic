@@ -30,21 +30,20 @@ import {FormsModule} from '@angular/forms';
 import {VisitService} from '../visit.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ActivatedRouteStub, RouterStub} from '../../testing/router-stubs';
-import {Visit} from '../visit';
+import {Visit,VisitAndPet, VisitPetAndOwner} from '../visit';
 import {Pet} from '../../pets/pet';
 import {Vet} from '../../vets/vet';
+import {Owner} from '../../owners/owner';
 import {Observable, of} from 'rxjs';
 import Spy = jasmine.Spy;
 import { By } from '@angular/platform-browser';
+//import { RouterTestingModule } from '@angular/router/testing';
 
 class VisitServiceStub {
   deleteVisit(visitId: string): Observable<number> {
     return of();
   }
-  getVisits(): Observable<Visit[]> {
-      return of();
-    }
-  getVisitsByVetId(): Observable<Visit[]> {
+  getVisitsAndExpand(): Observable<Visit[]> {
     return of();
   }
 }
@@ -53,8 +52,8 @@ describe('VisitListComponent', () => {
   let component: VisitListComponent;
   let fixture: ComponentFixture<VisitListComponent>;
   let visitService: VisitService;
-  let visits: Visit[];
-  let testVisits: Visit[];
+  let testVisits: VisitPetAndOwner[];
+  let testOwner: Owner;
   let testPet: Pet;
   let testVet: Vet;
   let spy: Spy;
@@ -77,21 +76,22 @@ describe('VisitListComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(VisitListComponent);
     component = fixture.componentInstance;
+    testOwner = {
+      id: 10,
+      firstName: 'James',
+      lastName: 'Franklin',
+      address: '110 W. Liberty St.',
+      city: 'Madison',
+      telephone: '6085551023',
+      pets: null,
+    },
     testPet = {
       id: 1,
       name: 'Leo',
       birthDate: '2010-09-07',
       type: {id: 1, name: 'cat'},
       ownerId: 1,
-      owner: {
-        id: 1,
-        firstName: 'George',
-        lastName: 'Franklin',
-        address: '110 W. Liberty St.',
-        city: 'Madison',
-        telephone: '6085551023',
-        pets: null
-      },
+      owner: testOwner,
       visits: null
     };
     testVet = {
@@ -102,16 +102,22 @@ describe('VisitListComponent', () => {
       visits: null
     };
     testVisits =  [{
-      id: 1,
-      date: '2016-09-07',
-      description: '',
+      visit: {
+        id: 1,
+        date: '2016-09-07',
+        description: '',
+        pet: testPet,
+        petId: testPet.id,
+        vet: testVet,
+        vetId: testVet.id,
+      },
       pet: testPet,
-      vet: testVet
+      owner: testOwner
     }];
 
     visitService = fixture.debugElement.injector.get(VisitService);
     responseStatus = 204; // success delete return NO_CONTENT
-    component.visits = testVisits;
+    component.expandedVisits = testVisits;
 
     spy = spyOn(visitService, 'deleteVisit')
       .and.returnValue(of(responseStatus));
@@ -125,22 +131,43 @@ describe('VisitListComponent', () => {
 
   it('should call deleteVisit() method', () => {
     const og_confirm = window.confirm;
-    window.confirm = ()=>true;
+    window.confirm = () => true;
 
     fixture.detectChanges();
-    component.deleteVisit(component.visits[0]);
+    component.deleteVisit(component.expandedVisits[0].visit);
     expect(spy.calls.any()).toBe(true, 'deleteVisit called');
 
     window.confirm = og_confirm;
   });
 
+  it('should call move5() method', () => {
+    let move5Spy = spyOn(component, 'move5').and.returnValues();
+    let nextButton = document.getElementById('next5');
+    nextButton.click();
+    expect(move5Spy.calls.any()).toBe(true, 'move5 called');
+  });
+
+  it('should call move5() method', () => {
+    let move5Spy = spyOn(component, 'move5').and.returnValues();
+    let prevButton = document.getElementById('prev5');
+    prevButton.click();
+    expect(move5Spy.calls.any()).toBe(true, 'move5 called');
+  });
+
   /*
-  it('should call show5More() method', () => {
-    let buttons = fixture.debugElement.queryAll(By.css('button'));
-    let show5MoreButton = buttons[2].nativeElement;
-    spyOn(component, 'show5More');
-    show5MoreButton.click();
-    expect(component.show5More).toHaveBeenCalled();
+  it('go to owner detail site routing', async() => {
+    //let button = document.getElementById('owner6');
+    //button.triggerEventHandler('click', null);
+    //spyOn(component, 'goToOwner').and.callThrough();
+    //expect(router.navigate).toHaveBeenCalledWith(['/owners', 6]);
+
+    //let href = fixture.debugElement.query(By.css('a')).nativeElement.getAttribute('href');
+    //expect(href).toEqual('petclinic/owners/6');
+    router=TestBed.get(Router);
+    spyOn(router,'navigate');
+    fixture.debugElement.query(By.css('a')).nativeElement.click();
+    expect(router.navigate).toHaveBeenCalledWith(['/owners', 6]);
+    //expect(router.url).toBe(`/owners/6`);
   });
   */
 });

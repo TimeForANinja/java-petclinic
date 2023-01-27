@@ -21,28 +21,27 @@
     <table [hidden]="noVisits" class=" table table-condensed">
       <thead>
       <tr>
-        <th>Pet Name</th>
+        <th>Pet</th>
         <th>Owner</th>
         <th>Visit Date</th>
         <th>Description</th>
         <th>Actions</th>
       </tr>
       </thead>
-      <tr *ngFor="let visit of visitsToShow()" >
-        <td>{{ getPetFromVisit(visit) }}</td>
-        <td>{{ visit.petId }}</td>
-        <td>{{ visit.date }}</td>
-        <td>{{ visit.description }}</td>
+      <tr *ngFor="let vp of visitsToShow()" >
+        <td>{{ vp.pet.name }}</td>
+        <td><a routerLink="/owners/{{vp.owner.id}}" routerLinkActive="active"
+               id="owner{{vp.owner.id}}">{{ vp.owner.firstName }} {{ vp.owner.lastName }}</a></td>
+        <td>{{ vp.visit.date }}</td>
+        <td>{{ vp.visit.description }}</td>
         <td>
-          <button class="btn btn-default" (click)="editVisit(visit)">Edit Visit</button>
-          <button class="btn btn-default" (click)="deleteVisit(visit)">Delete Visit</button>
+          <button class="btn btn-default" (click)="editVisit(vp.visit)">Edit Visit</button>
+          <button class="btn btn-default" (click)="deleteVisit(vp.visit)">Delete Visit</button>
         </td>
       </tr>
     </table>
-    <button class="btn btn-default" (click)="show5More()">Load 5 more visits</button>
-
+    <button class="btn btn-default" (click)="move5(true)" id="next5">5 next</button>
+    <button class="btn btn-default" (click)="move5(false)" id="prev5">5 prev</button>
+    <span>Showing {{ sliceMin }} to {{ sliceMax }}</span>
   </div>
 </div>
-
-
-

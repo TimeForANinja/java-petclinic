@@ -21,7 +21,8 @@
  */
 
 import {Pet} from '../pets/pet';
-import {Vet} from '../vets/vet'
+import {Vet} from '../vets/vet';
+import {Owner} from '../owners/owner';
 
 export interface Visit {
   id: number;
@@ -29,6 +30,17 @@ export interface Visit {
   description: string;
   pet: Pet;
   petId?: number;
-  vet: Vet; //TODO: weg damit? Pet ist auch nicht im API request enthalten
+  vet: Vet;
   vetId?: number;
+}
+
+export type VisitAndPet = {
+  visit: Visit,
+  pet: Pet
+}
+
+export type VisitPetAndOwner = {
+  visit: Visit,
+  pet: Pet,
+  owner: Owner
 }

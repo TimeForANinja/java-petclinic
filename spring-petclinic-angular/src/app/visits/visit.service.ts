@@ -21,12 +21,14 @@
  */
 
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {Visit} from './visit';
+import {forkJoin, Observable} from 'rxjs';
+import {Visit, VisitAndPet, VisitPetAndOwner} from './visit';
 import {environment} from '../../environments/environment';
 import {HandleError, HttpErrorHandler} from '../error.service';
 import {HttpClient} from '@angular/common/http';
-import {catchError} from 'rxjs/internal/operators';
+import {catchError, map, mergeMap} from 'rxjs/operators';
+import { PetService } from 'app/pets/pet.service';
+import { OwnerService } from 'app/owners/owner.service';
 
 @Injectable()
 export class VisitService {
@@ -35,7 +37,7 @@ export class VisitService {
 
   private readonly handlerError: HandleError;
 
-  constructor(private http: HttpClient, private httpErrorHandler: HttpErrorHandler) {
+  constructor(private http: HttpClient, private httpErrorHandler: HttpErrorHandler, private petservice: PetService, private ownerservice: OwnerService) {
     this.handlerError = httpErrorHandler.createHandleError('OwnerService');
   }
 
@@ -46,11 +48,31 @@ export class VisitService {
       );
   }
 
-  getVisitsByVetId(vetId: string): Observable<Visit[]> {
-  return this.http.get<Visit[]>(this.entityUrl+ '?vetId=' + vetId )
-        .pipe(
-          catchError(this.handlerError('getVisitsByVetId', []))
+  getVisitsAndExpand(vetId: string): Observable<VisitPetAndOwner[]> {
+    return this.getVisitsByVetId(vetId).pipe(
+      mergeMap((visits: Visit[]) => {
+        return forkJoin(
+          visits.map(visit => {
+            return this.petservice.getPetById(visit.petId).pipe(map(pet => ({ visit, pet })))
+          })
         );
+      }),
+
+      mergeMap((visitsAndPets: VisitAndPet[]) => {
+        return forkJoin(
+          visitsAndPets.map(({visit, pet}) => {
+            return this.ownerservice.getOwnerById(pet.ownerId).pipe(map(owner => ({ visit, pet, owner })))
+          })
+        );
+      })
+    );
+  }
+
+  getVisitsByVetId(vetId: string): Observable<Visit[]> {
+    return this.http.get<Visit[]>(this.entityUrl+ '?vetId=' + vetId )
+      .pipe(
+        catchError(this.handlerError('getVisitsByVetId', []))
+      );
     }
 
   getVisitById(visitId: string): Observable<Visit> {
@@ -63,7 +85,8 @@ export class VisitService {
   addVisit(visit: Visit): Observable<Visit> {
     const ownerId = visit.pet.ownerId;
     const petId = visit.pet.id;
-    const vetId = visit.vetId;
+
+    const vetId = visit.vet?.id || visit.vetId;
     //const visitsUrl = environment.REST_API_URL + `owners/${ownerId}/pets/${petId}/visits`;
     const visitsUrl = environment.REST_API_URL + `owners/${ownerId}/pets/${petId}/vets/${vetId}/visits`;
     return this.http.post<Visit>(visitsUrl, visit)
@@ -86,6 +109,4 @@ export class VisitService {
       );
 
   }
-
-
 }
