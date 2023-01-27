@@ -53,7 +53,7 @@ describe("Show all visits for a vet", () => {
         cy.on("window:confirm", () => false);
     })
 */
-    it("Show more visits adds 5 visits", async () => {
+    it("Load 5 more visits - cycles by 5 visits", async () => {
         // Create a veterinarian with more than 10 visits
         cy.addNewVet("Lisa", "Mabuse").then( (vetId) => {
             // Create 15 visits
@@ -68,10 +68,13 @@ describe("Show all visits for a vet", () => {
             cy.contains("All").click();
 
             cy.get("table").get("tbody").children().last().contains("Show Visits").click();
-            // TODO: Check if only 5 entries are shown
+
+            cy.get(".table > tr").should("have.length.lessThan", 10);
+
+            // Save first entry so we can check if it cycles
+            cy.get(".table > tr").first().children().first();
             // TODO: Press Show more visits button
             // TODO: Check if only 10 entries are shown
         });
     })
-
 })
