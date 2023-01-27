@@ -32,5 +32,5 @@ export interface Pet {
   type: PetType;
   owner: Owner;
   visits: Visit[];
-  visitId: number;
+  //visitId: number;
 }

@@ -6,12 +6,17 @@ import { By } from '@angular/platform-browser';
 import { ENGINE_METHOD_PKEY_ASN1_METHS } from 'constants';
 import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-//import { OwnerService } from '../owner.service';
+import { VisitService } from '../visit.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ActivatedRouteStub, RouterStub } from '../../testing/router-stubs';
-//import { Owner } from '../owner';
+import { Visit } from '../visit';
 import { Observable, of } from 'rxjs';
 
+class VisitServiceStub {
+  getVisits(): Observable<Visit[]> {
+    return of();
+  }
+}
 
 describe('VisitOwnerDetailComponent', () => {
   let component: VisitOwnerDetailComponent;
@@ -22,7 +27,11 @@ describe('VisitOwnerDetailComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ VisitOwnerDetailComponent ]
+      declarations: [ VisitOwnerDetailComponent ],
+      providers: [
+        {provide: Router, useClass: RouterStub},
+        {provide: VisitService, useClass: VisitServiceStub}
+      ]
     })
     .compileComponents();
   });

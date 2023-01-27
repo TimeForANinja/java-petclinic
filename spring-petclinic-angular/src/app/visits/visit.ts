@@ -29,5 +29,6 @@ export interface Visit {
   description: string;
   pet: Pet;
   petId?: number;
-  vet: Vet;
+  vet: Vet; //TODO: weg damit? Pet ist auch nicht im API request enthalten
+  vetId?: number;
 }

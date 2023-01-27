@@ -22,6 +22,7 @@
 
 import {Component, Input, OnInit} from '@angular/core';
 import {Visit} from '../visit';
+import {Pet} from '../../pets/pet';
 import {VisitService} from '../visit.service';
 import {ActivatedRoute, Router} from '@angular/router';
 
@@ -32,14 +33,14 @@ import {ActivatedRoute, Router} from '@angular/router';
 })
 export class VisitListComponent implements OnInit {
 
-  max = 5;
+  private max = 5;
 
   @Input() visits: Visit[];
   responseStatus: number;
   noVisits = false;
   errorMessage: string;
 
-  constructor(private router: Router, private visitService: VisitService, private route: ActivatedRoute,) {
+  constructor(private router: Router, private visitService: VisitService, private route: ActivatedRoute) {
     this.visits = [];
   }
 
@@ -77,5 +78,10 @@ export class VisitListComponent implements OnInit {
   visitsToShow(): Visit[] {
     return this.visits.slice(0,this.max);
   }
+
+  getPetFromVisit(visit: Visit): Pet {
+    return null;
+  };
+
 
 }
