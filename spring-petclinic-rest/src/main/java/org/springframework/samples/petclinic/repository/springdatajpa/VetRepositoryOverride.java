@@ -5,5 +5,4 @@ import org.springframework.samples.petclinic.model.Vet;
 
 @Profile("spring-data-jpa")
 public interface VetRepositoryOverride {
-    void delete(Vet vet);
 }
