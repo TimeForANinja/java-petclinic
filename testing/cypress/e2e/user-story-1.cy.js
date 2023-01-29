@@ -10,7 +10,7 @@ describe('Delete an Owner', () => {
 
   it('Check if Delete Button exists', () => {
     // press the first entry in the list
-    cy.get(':nth-child(1) > .ownerFullName > a').click();
+    cy.get('#ownersTable').find('tbody').children().first().children().first().children().first().click();
     cy.contains('Edit Owner').click();
 
     cy.contains('Delete Owner').should('exist');
@@ -18,7 +18,7 @@ describe('Delete an Owner', () => {
 
   it('Check if security check message exists', () => {
     // press the first entry in the list
-    cy.get(':nth-child(1) > .ownerFullName > a').click();
+    cy.get('#ownersTable').find('tbody').children().first().children().first().children().first().click();
     cy.contains('Edit Owner').click();
 
     cy.contains('Delete Owner').click();
