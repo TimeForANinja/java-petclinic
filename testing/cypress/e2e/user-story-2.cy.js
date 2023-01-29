@@ -1,7 +1,6 @@
 /// <reference types="Cypress" />
 
 describe("Show all visits for a vet", () => {
-/*
     it("Show visitdata for a vet", () => {
         cy.visit("localhost:8080");
         cy.contains("Veterinarians").click();
@@ -10,8 +9,8 @@ describe("Show all visits for a vet", () => {
         // get first entry in list
         cy.get("#vets.table").find("tbody").children().first().contains("Show Visits").click();
 
-        // Check AK1: Show per visit {PetName, VisitDate, Description, Owner}
-        cy.get("table").find("thead").contains("Pet Name").should("exist");
+        // Check AK1: Show per visit {Pet, VisitDate, Description, Owner}
+        cy.get("table").find("thead").contains("Pet").should("exist");
         cy.get("table").find("thead").contains("Visit Date").should("exist");
         cy.get("table").find("thead").contains("Description").should("exist");
         cy.get("table").find("thead").contains("Owner").should("exist");
@@ -28,9 +27,9 @@ describe("Show all visits for a vet", () => {
         // Get only the table rows (except table header)
         cy.get(".table > tr").each(($entry) => {
             // Check if buttons exist by text
-            cy.wrap($entry).contains("Edit Visit").should("exist");
-            cy.wrap($entry).contains("Delete Visit").should("exist");
-            cy.wrap($entry).contains("Show Owner").should("exist");
+            cy.wrap($entry).get("button").contains("Edit Visit").should("exist");
+            cy.wrap($entry).get("button").contains("Delete Visit").should("exist");
+            cy.wrap($entry).children().eq(2-1).children().should("have.attr", "href");
         })
     })
 
@@ -52,8 +51,8 @@ describe("Show all visits for a vet", () => {
         // Needed since cypress will press ok automatically otherwise and delete the visit
         cy.on("window:confirm", () => false);
     })
-*/
-    it("Load 5 more visits - cycles by 5 visits", async () => {
+
+    it("5 next/prev button - cycles by 5 visits", async () => {
         // Create a veterinarian with more than 10 visits
         cy.addNewVet("Lisa", "Mabuse").then( (vetId) => {
             // Create 15 visits
@@ -69,12 +68,25 @@ describe("Show all visits for a vet", () => {
 
             cy.get("table").get("tbody").children().last().contains("Show Visits").click();
 
-            cy.get(".table > tr").should("have.length.lessThan", 10);
+            cy.get(".table > tr").should("have.length.at.most", 10);
 
-            // Save first entry so we can check if it cycles
-            cy.get(".table > tr").first().children().first();
-            // TODO: Press Show more visits button
-            // TODO: Check if only 10 entries are shown
+            // Check if first entry is first testvisit
+            cy.get(".table > tr").children().first()
+                .children().first().contains("Testtermin 1").should("exist");
+
+            cy.get("button").contains("5 next").click();
+            cy.get(".table > tr").should("have.length.at.most", 10);
+
+            // Check if first entry is now the 6th testvisit
+            cy.get(".table > tr").children().first()
+                .children().first().contains("Testtermin 6").should("exist");
+
+            cy.get("button").contains("5 prev").click();
+            cy.get(".table > tr").should("have.length.at.most", 10);
+
+            // Check if first entry is first testvisit again
+            cy.get(".table > tr").children().first()
+                .children().first().contains("Testtermin 1").should("exist");
         });
     })
 })
