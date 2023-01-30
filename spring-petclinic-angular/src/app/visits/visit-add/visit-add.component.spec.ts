@@ -29,9 +29,11 @@ import {VisitAddComponent} from './visit-add.component';
 import {FormsModule} from '@angular/forms';
 import {VisitService} from '../visit.service';
 import {PetService} from '../../pets/pet.service';
+import {VetService} from '../../vets/vet.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ActivatedRouteStub, RouterStub} from '../../testing/router-stubs';
 import {Pet} from '../../pets/pet';
+import {Vet} from '../../vets/vet';
 import {Observable, of} from 'rxjs';
 import {MatMomentDateModule} from '@angular/material-moment-adapter';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -53,12 +55,23 @@ class OwnerServiceStub {
 class VisitServiceStub {
 }
 
+class VetServiceStub {
+  getVets(): Observable<Vet[]> {
+    return of();
+  }
+  getVetById(petId: string): Observable<Vet> {
+    return of();
+  }
+}
+
 describe('VisitAddComponent', () => {
   let component: VisitAddComponent;
   let fixture: ComponentFixture<VisitAddComponent>;
   let petService: PetService;
+  let vetService: VetService;
   let visitService: VisitService;
   let testPet: Pet;
+  let testVet: Vet;
   let spy: Spy;
 
   beforeEach(waitForAsync(() => {
@@ -68,6 +81,7 @@ describe('VisitAddComponent', () => {
       imports: [FormsModule, MatDatepickerModule, MatMomentDateModule],
       providers: [
         {provide: PetService, useClass: PetServiceStub},
+        {provide: VetService, useClass: VetServiceStub},
         {provide: VisitService, useClass: VisitServiceStub},
         {provide: OwnerService, useClass: OwnerServiceStub},
         {provide: Router, useClass: RouterStub},
@@ -97,7 +111,15 @@ describe('VisitAddComponent', () => {
       },
       visits: null
     };
+    testVet ={
+      id: 1,
+      firstName: 'James',
+      lastName: 'Carter',
+      specialties: null,
+      visits: null
+    };
     petService = fixture.debugElement.injector.get(PetService);
+    vetService = fixture.debugElement.injector.get(VetService);
     visitService = fixture.debugElement.injector.get(VisitService);
     spy = spyOn(petService, 'addPet')
       .and.returnValue(of(testPet));

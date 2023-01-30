@@ -450,7 +450,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestError'
-  /owners/{ownerId}/pets/{petId}/visits:
+  /owners/{ownerId}/pets/{petId}/vets/{vetId}/visits:
     post:
       tags:
         - visit
@@ -470,6 +470,15 @@ paths:
         - name: petId
           in: path
           description: The ID of the pet.
+          required: true
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+            example: 1
+        - name: vetId
+          in: path
+          description: The ID of the veterinarian.
           required: true
           schema:
             type: integer
@@ -1018,6 +1027,16 @@ paths:
       operationId: listVisits
       summary: Lists visits
       description: Returns an array of visit .
+      parameters:
+        - name: vetId
+          in: query
+          description: Veterinarian ID
+          required: false
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+            example: 1
       responses:
         200:
           description: visits found and returned.
@@ -2136,8 +2155,18 @@ components:
               minimum: 0
               example: 1
               readOnly: true
+            vetId:
+              title: Vet ID
+              description: The ID of the veterinarian.
+              type: integer
+              format: int32
+              minimum: 0
+              example: 1
+              readOnly: true
           required:
             - id
+            - vetId
+            - petId
     PetTypeFields:
       title: PetType fields
       description: Editable fields of a pet type.

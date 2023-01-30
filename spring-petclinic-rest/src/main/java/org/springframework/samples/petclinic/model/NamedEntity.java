@@ -31,9 +31,16 @@ import javax.validation.constraints.NotEmpty;
 @MappedSuperclass
 public class NamedEntity extends BaseEntity {
 
+    public NamedEntity (String string) {this.setName(string);}
+
     @Column(name = "name")
     @NotEmpty
     private String name;
+
+    public NamedEntity()
+    {
+
+    }
 
     public String getName() {
         return this.name;

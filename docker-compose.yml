@@ -1,0 +1,11 @@
+version: "3.0"
+services:
+  backend:
+    build: ./spring-petclinic-rest/
+    ports:
+      - "9966:9966"
+
+  frontend:
+    build: ./spring-petclinic-angular/
+    ports:
+      - "8080:8080"

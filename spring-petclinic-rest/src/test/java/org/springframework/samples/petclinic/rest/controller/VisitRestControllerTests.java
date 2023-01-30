@@ -26,10 +26,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.samples.petclinic.mapper.VisitMapper;
-import org.springframework.samples.petclinic.model.Owner;
-import org.springframework.samples.petclinic.model.Pet;
-import org.springframework.samples.petclinic.model.PetType;
-import org.springframework.samples.petclinic.model.Visit;
+import org.springframework.samples.petclinic.model.*;
 import org.springframework.samples.petclinic.rest.advice.ExceptionControllerAdvice;
 import org.springframework.samples.petclinic.service.ClinicService;
 import org.springframework.samples.petclinic.service.clinicService.ApplicationTestConfig;
@@ -41,6 +38,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import static org.mockito.BDDMockito.given;
@@ -86,6 +85,14 @@ class VisitRestControllerTests {
     	owner.setCity("McFarland");
     	owner.setTelephone("6085558763");
 
+
+    	Vet vet = new Vet();
+    	vet.setId(3);
+    	vet.setSpecialties(Arrays.asList(new Specialty[]{new Specialty("surgery"), new Specialty("dentistry")}));
+    	vet.setFirstName("Linda");
+    	vet.setLastName("Douglas");
+
+
     	PetType petType = new PetType();
     	petType.setId(2);
     	petType.setName("dog");
@@ -101,6 +108,7 @@ class VisitRestControllerTests {
     	Visit visit = new Visit();
     	visit.setId(2);
     	visit.setPet(pet);
+        visit.setVet(vet);
         visit.setDate(LocalDate.now());
     	visit.setDescription("rabies shot");
     	visits.add(visit);
@@ -108,6 +116,7 @@ class VisitRestControllerTests {
     	visit = new Visit();
     	visit.setId(3);
     	visit.setPet(pet);
+    	visit.setVet(vet);
         visit.setDate(LocalDate.now());
     	visit.setDescription("neutered");
     	visits.add(visit);
@@ -152,6 +161,37 @@ class VisitRestControllerTests {
 
     @Test
     @WithMockUser(roles="OWNER_ADMIN")
+    void testGetAllVisitsByVetIdSuccess() throws Exception {
+        for (Visit v : visits) {
+            if (v.getVet().getId() != 3) {
+                visits.remove(v.getId());
+            }
+        }
+        given(this.clinicService.findVisitsByVetId(3)).willReturn(visits);
+        this.mockMvc.perform(get("/api/visits?vetId=3")
+                .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType("application/json"))
+            .andExpect(jsonPath("$.[0].id").value(2))
+            .andExpect(jsonPath("$.[0].description").value("rabies shot"))
+            .andExpect(jsonPath("$.[0].vetId").value(3))
+            .andExpect(jsonPath("$.[1].id").value(3))
+            .andExpect(jsonPath("$.[1].description").value("neutered"))
+            .andExpect(jsonPath("$.[1].vetId").value(3));
+    }
+
+    @Test
+    @WithMockUser(roles="OWNER_ADMIN")
+    void testGetAllVisitsByVetIdNotFound() throws Exception {
+        visits.clear();
+        given(this.clinicService.findVisitsByVetId(3)).willReturn(visits);
+        this.mockMvc.perform(get("/api/visits?vetId=3")
+                .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @WithMockUser(roles="OWNER_ADMIN")
     void testGetAllVisitsNotFound() throws Exception {
     	visits.clear();
     	given(this.clinicService.findAllVisits()).willReturn(visits);
@@ -169,7 +209,8 @@ class VisitRestControllerTests {
         mapper.registerModule(new JavaTimeModule());
         mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         String newVisitAsJSON = mapper.writeValueAsString(visitMapper.toVisitDto(newVisit));
-    	System.out.println("newVisitAsJSON " + newVisitAsJSON);
+    	// WTF; Again??? This is prod code! No println ffs!
+        // System.out.println("newVisitAsJSON " + newVisitAsJSON);
     	this.mockMvc.perform(post("/api/visits/")
     		.content(newVisitAsJSON).accept(MediaType.APPLICATION_JSON_VALUE).contentType(MediaType.APPLICATION_JSON_VALUE))
     		.andExpect(status().isCreated());

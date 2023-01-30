@@ -20,28 +20,43 @@
  * @author Vitaliy Fedoriv
  */
 
-import {Component, Input, OnInit} from '@angular/core';
-import {Visit} from '../visit';
+import {Component, OnInit} from '@angular/core';
+import {Visit, VisitAndPet} from '../visit';
 import {VisitService} from '../visit.service';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Owner} from '../../owners/owner';
+
+const SLIDING_WINDOW_WIDTH = 10;
+const SLIDING_WINDOW_SHIFT = 5;
 
 @Component({
   selector: 'app-visit-list',
   templateUrl: './visit-list.component.html',
   styleUrls: ['./visit-list.component.css']
 })
+
 export class VisitListComponent implements OnInit {
 
-  @Input() visits: Visit[];
+  sliceMin = 0;
+  sliceMax = SLIDING_WINDOW_WIDTH;
+
+  expandedVisits: VisitAndPet[];
   responseStatus: number;
   noVisits = false;
   errorMessage: string;
 
-  constructor(private router: Router, private visitService: VisitService) {
-    this.visits = [];
+  constructor(private router: Router, private visitService: VisitService, private route: ActivatedRoute) {
+    this.expandedVisits = [];
   }
 
   ngOnInit() {
+    const vetId = this.route.snapshot.params.id;
+    this.visitService.getVisitsAndExpand(vetId).subscribe(
+      visitAndPet => {
+        this.expandedVisits.push(...visitAndPet)
+        this.sliceMax = Math.min(SLIDING_WINDOW_WIDTH, visitAndPet.length)
+      },
+      error => this.errorMessage = error as any);
   }
 
   editVisit(visit: Visit) {
@@ -49,16 +64,38 @@ export class VisitListComponent implements OnInit {
   }
 
   deleteVisit(visit: Visit) {
-    this.visitService.deleteVisit(visit.id.toString()).subscribe(
-      response => {
-        this.responseStatus = response;
-        console.log('delete success');
-        this.visits.splice(this.visits.indexOf(visit), 1 );
-        if (this.visits.length === 0) {
+    if(confirm("Are you sure you want to delete this visit?")) {
+      this.visitService.deleteVisit(visit.id.toString()).subscribe(
+        response => {
+          this.responseStatus = response;
+          console.log('delete success');
+          const delIdx = this.expandedVisits.findIndex(vp => vp.visit.id === visit.id)
+          this.expandedVisits.splice(delIdx, 1);
+          if (this.expandedVisits.length === 0) {
             this.noVisits = true;
           }
-      },
-      error => this.errorMessage = error as any);
+        },
+        error => this.errorMessage = error as any
+      );
+    }
+  }
+
+  move5(forward: boolean){
+    if (forward) {
+      this.sliceMin = Math.min(this.sliceMin + SLIDING_WINDOW_SHIFT, Math.max(this.expandedVisits.length - SLIDING_WINDOW_WIDTH, 0));
+      this.sliceMax = Math.min(this.sliceMax + SLIDING_WINDOW_SHIFT, this.expandedVisits.length);
+    } else {
+      this.sliceMin = Math.max(this.sliceMin - SLIDING_WINDOW_SHIFT, 0);
+      this.sliceMax = Math.max(this.sliceMax - SLIDING_WINDOW_SHIFT, SLIDING_WINDOW_WIDTH);
+    }
+  }
+
+  visitsToShow(): VisitAndPet[] {
+    return this.expandedVisits.slice(this.sliceMin, this.sliceMax);
+  }
+
+  onSelect(owner: Owner) {
+    this.router.navigate(['/owners', owner.id]);
   }
 
 }
