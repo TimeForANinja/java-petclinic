@@ -21,6 +21,7 @@
  */
 
 import {Component} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -28,5 +29,17 @@ import {Component} from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+
+  constructor(private route: ActivatedRoute, private router: Router) {
+  }
+
+  goToSearchResults(){
+    const term = (document.getElementById('globalSearch') as HTMLInputElement).value;
+    if (term.length == 0) {
+      alert("No results found");
+      return;
+    }
+    this.router.navigate(['/search-results/',term]);
+  }
 
 }

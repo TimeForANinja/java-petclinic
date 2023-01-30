@@ -26,6 +26,9 @@ import { TestBed, waitForAsync } from '@angular/core/testing';
 import {AppComponent} from './app.component';
 import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import {FormsModule} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
+import {RouterTestingModule} from '@angular/router/testing';
+import {ActivatedRouteStub, RouterStub} from 'app/testing/router-stubs';
 
 describe('AppComponent', () => {
   beforeEach(waitForAsync(() => {
@@ -34,7 +37,11 @@ describe('AppComponent', () => {
         AppComponent
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [FormsModule]
+      imports: [FormsModule],
+      providers: [
+        {provide: Router, useClass: RouterStub},
+        {provide: ActivatedRoute, useClass: ActivatedRouteStub}
+      ]
     }).compileComponents();
   }));
 

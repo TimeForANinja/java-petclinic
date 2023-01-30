@@ -1,0 +1,103 @@
+<div class="container-fluid">
+  <div class="container xd-container">
+
+    <h2>Owners</h2>
+    <table id="owner.table" name="owner.table" class="table table-striped">
+      <thead>
+      <tr>
+        <th>First Name</th>
+        <th>Address</th>
+        <th>City</th>
+        <th>Telephone</th>
+      </tr>
+      </thead>
+      <tbody>
+
+      <tr *ngFor="let owner of ownersToShow()">
+        <td><a routerLink="/owners/{{owner.id}}"> {{owner.firstName}} {{owner.lastName}} </a></td>
+        <td> {{owner.address}} </td>
+        <td> {{owner.city}} </td>
+        <td> {{owner.telephone}} </td>
+      </tr>
+
+      </tbody>
+    </table>
+    <button class="btn btn-default" (click)="showMoreOwners()">Load 10 more</button>
+    <span> Showing {{ minOwners }} to {{ maxOwners }}</span>
+
+    <h2 style="margin-top:20px;">Pets</h2>
+    <table id="pet.table" name="pet.table" class="table table-striped">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Birth Date</th>
+        <th>Owner</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let petOwner of petsToShow()">
+        <td>{{petOwner.pet.name}}</td>
+        <td>{{petOwner.pet.type.name}}</td>
+        <td>{{petOwner.pet.birthDate}}</td>
+        <td><a routerLink="/owners/{{petOwner.pet.ownerId}}">{{petOwner.owner.firstName}} {{petOwner.owner.lastName}}</a></td>
+        <td><button class="btn btn-default" (click)="goToEditPet(petOwner.pet)">Edit Pet</button></td>
+      </tr>
+      </tbody>
+    </table>
+    <button class="btn btn-default" (click)="showMorePets()">Load 10 more</button>
+    <span> Showing {{ minPets }} to {{ maxPets }}</span>
+
+    <h2 style="margin-top:20px;">Veterinarian</h2>
+    <table id="vet.table" name="vet.table" class="table table-striped">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Specialities</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let vet of vetsToShow()">
+        <td>{{vet.firstName}} {{vet.lastName}}</td>
+        <td>
+          <div *ngFor="let spec of vet.specialties">
+            {{ spec.name }}
+          </div>
+        </td>
+        <td><button class="btn btn-default" (click)="goToEditVet(vet)">Edit Vet</button></td>
+      </tr>
+      </tbody>
+    </table>
+    <button class="btn btn-default" (click)="showMoreVets()">Load 10 more</button>
+    <span> Showing {{ minVets }} to {{ maxVets }}</span>
+
+    <h2 style="margin-top:20px;">Visits</h2>
+    <table id="visit.table" name="visit.table" class="table table-striped">
+      <thead>
+      <tr>
+        <th>Visit Date</th>
+        <th>Description</th>
+        <th>Owner</th>
+        <th>Veterinarian</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let vpo of visitsToShow()">
+        <td>{{vpo.visit.date}}</td>
+        <td>{{vpo.visit.description}}</td>
+        <td>{{vpo.owner.firstName}} {{vpo.owner.lastName}}</td>
+        <td>{{vpo.vet.firstName}} {{vpo.vet.lastName}}</td>
+        <td>
+          <button class="btn btn-default" (click)="goToEditVisit(vpo.visit)">Edit Visit</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <button class="btn btn-default" (click)="showMoreVisits()">Load 10 more</button>
+    <span> Showing {{ minVisits }} to {{ maxVisits }}</span>
+
+  </div>
+</div>
