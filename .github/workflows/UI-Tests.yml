@@ -1,4 +1,6 @@
 name: Cypress Tests using Cypress Docker Image
+# thanks to @TimeForANinjas patience to help me with this, it finally works
+# i am released from this hell that is called programming github actions
 
 on:
   pull_request:
