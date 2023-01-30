@@ -811,7 +811,48 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestError'
-
+  /pets/search/{searchTerm}:
+    get:
+      tags:
+        - pet
+      operationId: listPetsByTerm
+      summary: Lists pets by a search Term
+      description: Returns an array of pets when the searchTerm matches the name; Returns an empty array when not.
+      parameters:
+        - name: searchTerm
+          in: path
+          description: Search Term
+          required: true
+          schema:
+            type: string
+            example: Leo
+      responses:
+        200:
+          description: Pet details found and returned.
+          headers:
+            ETag:
+              description: An ID for this version of the response.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+        304:
+          description: Not modified.
+          headers:
+            ETag:
+              description: An ID for this version of the response.
+              schema:
+                type: string
+        500:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestError'
   /pets:
     get:
       tags:
