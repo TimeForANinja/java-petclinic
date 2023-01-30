@@ -38,12 +38,18 @@ public interface VetRepository {
      * @return a <code>Collection</code> of <code>Vet</code>s
      */
     Collection<Vet> findAll() throws DataAccessException;
-    
+
 	Vet findById(int id) throws DataAccessException;
 
 	void save(Vet vet) throws DataAccessException;
-	
+
 	void delete(Vet vet) throws DataAccessException;
 
-
+    /**
+     * Retrieve <code>Vet</code>s from the data store, returning all vets and their specialties
+     * @param searchTerm
+     * @return a <code>Collection</code> of <code>Vet</code>s (or an empty <code>Collection</code> if none)
+     * @throws DataAccessException
+     */
+    Collection<Vet> findBySearchTerm(String searchTerm) throws DataAccessException;
 }

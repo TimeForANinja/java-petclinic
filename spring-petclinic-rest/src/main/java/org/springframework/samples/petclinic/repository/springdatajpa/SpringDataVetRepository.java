@@ -16,9 +16,14 @@
 package org.springframework.samples.petclinic.repository.springdatajpa;
 
 import org.springframework.context.annotation.Profile;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
+import org.springframework.data.repository.query.Param;
+import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.Vet;
 import org.springframework.samples.petclinic.repository.VetRepository;
+
+import java.util.Collection;
 
 /**
  * Spring Data JPA specialization of the {@link VetRepository} interface
@@ -29,4 +34,10 @@ import org.springframework.samples.petclinic.repository.VetRepository;
 
 @Profile("spring-data-jpa")
 public interface SpringDataVetRepository extends VetRepository, Repository<Vet, Integer>, VetRepositoryOverride {
+    @Override
+    @Query("SELECT vet FROM Vet vet LEFT JOIN FETCH vet.specialties specialty " +
+        "WHERE vet.firstName LIKE %:searchTerm% OR " +
+        "vet.lastName LIKE %:searchTerm% OR " +
+        "specialty.name LIKE %:searchTerm%")
+    Collection<Vet> findBySearchTerm(@Param("searchTerm") String searchTerm);
 }
