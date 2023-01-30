@@ -1104,6 +1104,48 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestError'
+  /visits/search/{searchTerm}:
+    get:
+      tags:
+        - vet
+      operationId: listVisitsByTerm
+      summary: Lists visits by a search Term
+      description: Returns an array of visits when the searchTerm matches the description; Returns an empty array when not.
+      parameters:
+        - name: searchTerm
+          in: path
+          description: Search Term
+          required: true
+          schema:
+            type: string
+            example: neutered
+      responses:
+        200:
+          description: Visits details found and returned.
+          headers:
+            ETag:
+              description: An ID for this version of the response.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Visit'
+        304:
+          description: Not modified.
+          headers:
+            ETag:
+              description: An ID for this version of the response.
+              schema:
+                type: string
+        500:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestError'
   /visits:
     get:
       tags:

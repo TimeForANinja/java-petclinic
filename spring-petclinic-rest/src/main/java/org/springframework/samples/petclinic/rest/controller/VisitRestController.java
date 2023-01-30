@@ -22,6 +22,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.mapper.VisitMapper;
 import org.springframework.samples.petclinic.model.Visit;
 import org.springframework.samples.petclinic.rest.api.VisitsApi;
+import org.springframework.samples.petclinic.rest.dto.VetDto;
 import org.springframework.samples.petclinic.rest.dto.VisitDto;
 import org.springframework.samples.petclinic.service.ClinicService;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -111,6 +112,18 @@ public class VisitRestController implements VisitsApi {
         }
         this.clinicService.deleteVisit(visit);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PreAuthorize("hasRole(@roles.OWNER_ADMIN)")
+    @Override
+    //TODO: Add API Success and Failure tests
+    // TODO: Add JUnit tests for every attribute searchTerm can match
+    public ResponseEntity<List<VisitDto>> listVisitsByTerm(String searchTerm) {
+        Collection<Visit> visits = this.clinicService.findVisitBySearchTerm(searchTerm);
+        if (visits.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(new ArrayList<>(visitMapper.toVisitsDto(visits)), HttpStatus.OK);
     }
 
 }

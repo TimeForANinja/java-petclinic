@@ -22,6 +22,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.samples.petclinic.model.Visit;
 import org.springframework.samples.petclinic.repository.VisitRepository;
 
+import java.util.List;
+
 /**
  * Spring Data JPA specialization of the {@link VisitRepository} interface
  *
@@ -31,4 +33,8 @@ import org.springframework.samples.petclinic.repository.VisitRepository;
 
 @Profile("spring-data-jpa")
 public interface SpringDataVisitRepository extends VisitRepository, Repository<Visit, Integer>, VisitRepositoryOverride {
+
+    @Override
+    @Query("SELECT visit FROM Visit visit WHERE visit.description LIKE %:searchTerm%")
+    List<Visit> findBySearchTerm(@Param("searchTerm") String searchTerm);
 }

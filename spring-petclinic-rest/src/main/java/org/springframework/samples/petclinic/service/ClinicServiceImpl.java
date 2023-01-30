@@ -310,4 +310,10 @@ public class ClinicServiceImpl implements ClinicService {
     public Collection<Vet> findVetBySearchTerm(String searchTerm) throws DataAccessException {
         return vetRepository.findBySearchTerm(searchTerm);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Collection<Visit> findVisitBySearchTerm(String searchTerm) throws DataAccessException {
+        return visitRepository.findBySearchTerm(searchTerm);
+    }
 }
