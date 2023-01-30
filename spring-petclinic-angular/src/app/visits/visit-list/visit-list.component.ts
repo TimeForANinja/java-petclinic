@@ -94,5 +94,8 @@ export class VisitListComponent implements OnInit {
     return this.expandedVisits.slice(this.sliceMin, this.sliceMax);
   }
 
+  onSelect(owner: Owner) {
+    this.router.navigate(['/owners', owner.id]);
+  }
 
 }

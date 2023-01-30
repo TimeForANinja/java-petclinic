@@ -37,7 +37,7 @@ import {Owner} from '../../owners/owner';
 import {Observable, of} from 'rxjs';
 import Spy = jasmine.Spy;
 import { By } from '@angular/platform-browser';
-//import { RouterTestingModule } from '@angular/router/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 class VisitServiceStub {
   deleteVisit(visitId: string): Observable<number> {
@@ -58,6 +58,7 @@ describe('VisitListComponent', () => {
   let testVet: Vet;
   let spy: Spy;
   let responseStatus: number;
+  let router: Router;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -119,6 +120,8 @@ describe('VisitListComponent', () => {
     responseStatus = 204; // success delete return NO_CONTENT
     component.expandedVisits = testVisits;
 
+    router=TestBed.get(Router);
+
     spy = spyOn(visitService, 'deleteVisit')
       .and.returnValue(of(responseStatus));
 
@@ -154,20 +157,58 @@ describe('VisitListComponent', () => {
     expect(move5Spy.calls.any()).toBe(true, 'move5 called');
   });
 
-  /*
-  it('go to owner detail site routing', async() => {
-    //let button = document.getElementById('owner6');
-    //button.triggerEventHandler('click', null);
-    //spyOn(component, 'goToOwner').and.callThrough();
-    //expect(router.navigate).toHaveBeenCalledWith(['/owners', 6]);
+  it("should find a link in the visit-table", function() {
+      const table = document.getElementById("visit-list-table") as HTMLTableElement;
+      let linkExists = false;
 
-    //let href = fixture.debugElement.query(By.css('a')).nativeElement.getAttribute('href');
-    //expect(href).toEqual('petclinic/owners/6');
-    router=TestBed.get(Router);
-    spyOn(router,'navigate');
-    fixture.debugElement.query(By.css('a')).nativeElement.click();
-    expect(router.navigate).toHaveBeenCalledWith(['/owners', 6]);
-    //expect(router.url).toBe(`/owners/6`);
+      // Loop through all rows in the table
+      for (let i = 0, row; row = table.rows[i]; i++) {
+        // Loop through all cells in the row
+        for (let j = 0, cell; cell = row.cells[j]; j++) {
+          // Check if the cell contains a link
+          if (cell.getElementsByTagName("a").length > 0) {
+            linkExists = true;
+            break;
+          }
+        }
+        if (linkExists) {
+          break;
+        }
+      }
+
+      expect(linkExists).toBeTruthy();
+    });
+
+/*
+  it("should redirect to the correct page", function(done) {
+    // TODO: getAttribute routerLink return null???!
+    let links = fixture.debugElement.queryAll(By.css('a'));
+    let link = links[0].nativeElement;
+    let id = link.getAttribute("id");
+    let url = link.getAttribute("routerLink");
+
+    expect(url).toBe('owners/'+id);
   });
-  */
+*/
+  it("should find edit and delete button in the visit-table", function() {
+      const table = document.getElementById("visit-list-table") as HTMLTableElement;
+      let editButtonExists = false;
+      let deleteButtonExists = false;
+
+      // Loop through all rows in the table
+      for (let i = 0, row; row = table.rows[i]; i++) {
+        // Loop through all cells in the row
+        for (let j = 0, cell; cell = row.cells[j]; j++) {
+          if (document.getElementById("editButton") != null){
+            editButtonExists = true;
+          }
+          if (document.getElementById("deleteButton") != null){
+            deleteButtonExists = true;
+          }
+        }
+      }
+
+      expect(editButtonExists).toBeTruthy();
+      expect(deleteButtonExists).toBeTruthy();
+    });
 });
