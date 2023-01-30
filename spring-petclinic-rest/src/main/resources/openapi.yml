@@ -54,6 +54,49 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestError'
+  /owners/search/{searchTerm}:
+    get:
+      tags:
+        - owner
+      operationId: listOwnersByTerm
+      summary: Lists owners by a search Term
+      description: Returns an array of owners when the searchTerm matches firstname, 
+                   lastname, adress, city or telephone; Returns an empty array when not.
+      parameters:
+        - name: searchTerm
+          in: path
+          description: Search Term
+          required: true
+          schema:
+            type: string
+            example: Davis
+      responses:
+        200:
+          description: Owner details found and returned.
+          headers:
+            ETag:
+              description: An ID for this version of the response.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Owner'
+        304:
+          description: Not modified.
+          headers:
+            ETag:
+              description: An ID for this version of the response.
+              schema:
+                type: string
+        500:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestError'
   /owners:
     post:
       tags:

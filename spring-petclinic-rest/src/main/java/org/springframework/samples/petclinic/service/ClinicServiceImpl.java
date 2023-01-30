@@ -281,7 +281,13 @@ public class ClinicServiceImpl implements ClinicService {
 		return ownerRepository.findByLastName(lastName);
 	}
 
-	@Override
+    @Override
+    @Transactional
+    public Collection<Owner> findOwnerBySearchTerm(String searchTerm) throws DataAccessException {
+        return ownerRepository.findBySearchTerm(searchTerm);
+    }
+
+    @Override
 	@Transactional(readOnly = true)
 	public Collection<Visit> findVisitsByPetId(int petId) {
 		return visitRepository.findByPetId(petId);
