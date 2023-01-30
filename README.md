@@ -12,11 +12,23 @@ Spring petclinic project for university module "Testen und DevOps in der agilen 
     - The application is running, when both containers in docker desktop are running
 4. You can now access the petclinic via [localhost:8080](http://localhost:8080/)
 
-## How to run UI-Tests
-1. Navigate to top level folder
-    - Where you found the `docker-compose.yaml`
-2. Start your CLI in this folder
-3. Type `npx cypress open`
+## How to run UI-Tests locally
+### Preparations
+Since Cypress uses the URLs `frontend:8080` and `backend:9966` in the GitHub-Actions, these need to be edited in order to run cypress local.
+In order to do these, change the following in the project:
+1. In `/spring-petclinic-angular/src/environments/environment.prod.ts` change `REST_API_URL` to the following:  
+    ```
+    REST_API_URL: 'http://localhost:9966/petclinic/api/'
+    ```
+2. In `/testing/cypress/cypress.config.js` change the `frontendUrl` and `backendUrl`:
+    ```
+    frontendUrl: 'http://localhost:8080',
+    backendUrl: 'http://localhost:9966',
+    ```
+### Open Cypress locally
+1. Navigate to `/testing`
+2. Start the `startCypressLocally.cmd`
+    - Alternatively: start your CLI here and type `npx cypress open`
 
 ## Credits
 Frontend: [spring-petclinc-angular project](https://github.com/spring-petclinic/spring-petclinic-angular)

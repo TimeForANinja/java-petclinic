@@ -1,3 +1,6 @@
+# author: Fabian Dirscherl
+# ... And thanks to jesus riding unicorns puking rainbows and 
+# farting glitter - aka @TimeForANinja - it finally works
 version: "3.0"
 services:
   backend:

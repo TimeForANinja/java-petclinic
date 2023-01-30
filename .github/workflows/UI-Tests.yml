@@ -1,4 +1,6 @@
 name: Cypress Tests using Cypress Docker Image
+# thanks to @TimeForANinjas patience to help me with this, it finally works
+# i am released from this hell that is called programming github actions
 
 on:
   pull_request:
@@ -20,11 +22,11 @@ jobs:
       - name: run cypress
         run: docker compose -f docker-compose.testing.yml up --exit-code-from cypress
 
-      - name: upload artifacts
-        if: always()
-        uses: actions/upload-artifact@master
-        with:
-          name: cypress-for-branch-${{ github.ref_name }}
-          path: |
-            testing/cypress/screenshots
-            testing/cypress/videos
+      #- name: upload artifacts
+      #  if: always()
+      #  uses: actions/upload-artifact@master
+      #  with:
+      #    name: cypress-for-branch-${{ github.ref_name }}
+      #    path: |
+      #      testing/cypress/screenshots
+      #      testing/cypress/videos

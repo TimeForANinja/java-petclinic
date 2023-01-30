@@ -15,6 +15,7 @@
  */
 package org.springframework.samples.petclinic.model;
 
+import org.springframework.core.style.ToStringCreator;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -47,11 +48,11 @@ public class Visit extends BaseEntity {
      * Holds value of property pet.
      */
     @ManyToOne
-    @JoinColumn(name = "pet_id")
+    @JoinColumn(name = "pet_id", referencedColumnName = "id", nullable = false)
     private Pet pet;
 
     @ManyToOne
-    @JoinColumn(name = "vet_id")
+    @JoinColumn(name = "vet_id", referencedColumnName = "id", nullable = false)
     private Vet vet;
 
 
@@ -128,4 +129,15 @@ public class Visit extends BaseEntity {
      * @param vet New value of property vet
      */
     public void setVet(Vet vet) { this.vet = vet; }
+
+    @Override
+    public String toString() {
+        return new ToStringCreator(this)
+            .append("id", this.getId())
+            .append("petId", this.getPet().getId())
+            .append("vetId", this.getVet().getId())
+            .append("date", this.getDate().toString())
+            .append("description", this.description)
+            .toString();
+    }
 }
