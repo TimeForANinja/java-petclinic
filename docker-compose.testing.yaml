@@ -1,0 +1,24 @@
+# author: Fabian Dirscherl
+# ... And thanks to jesus riding unicorns puking rainbows and 
+# farting glitter - aka @TimeForANinja - it finally works
+version: "3.0"
+services:
+  backend:
+    build: ./spring-petclinic-rest/
+    ports:
+      - "9966:9966"
+
+  frontend:
+    build: ./spring-petclinic-angular/
+    ports:
+      - "8080:8080"
+
+  cypress:
+    image: cypress/included:12.3.0
+    working_dir: /app
+    volumes:
+      - ./testing/:/app
+    entrypoint: /bin/bash delayed-run.sh --config baseUrl=http://frontend:8080
+    depends_on:
+      - frontend
+      - backend
