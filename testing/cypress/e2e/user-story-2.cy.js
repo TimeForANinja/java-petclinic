@@ -2,7 +2,7 @@
 
 describe("Show all visits for a vet", () => {
     it("Show visitdata for a vet", () => {
-        cy.visit("localhost:8080");
+        cy.visit();
         cy.contains("Veterinarians").click();
         cy.contains("All").click();
 
@@ -17,7 +17,7 @@ describe("Show all visits for a vet", () => {
     })
 
     it("Buttons exist in visit list", () => {
-        cy.visit("localhost:8080");
+        cy.visit();
         cy.contains("Veterinarians").click();
         cy.contains("All").click();
 
@@ -34,7 +34,7 @@ describe("Show all visits for a vet", () => {
     })
 
     it("Delete visit has a confirmation", () => {
-        cy.visit("localhost:8080");
+        cy.visit();
         cy.contains("Veterinarians").click();
         cy.contains("All").click();
 
@@ -62,7 +62,7 @@ describe("Show all visits for a vet", () => {
                 cy.addNewVisit(1, 1, vetId, visitDate, "Testtermin " + index);
             }
 
-            cy.visit("localhost:8080");
+            cy.visit();
             cy.contains("Veterinarians").click();
             cy.contains("All").click();
 

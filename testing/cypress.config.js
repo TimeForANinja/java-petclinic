@@ -5,7 +5,7 @@ module.exports = defineConfig({
     setupNodeEvents(on, config) {
       // implement node event listeners here
     },
-    baseUrl: 'http://localhost:8080',
+    frontendUrl: 'http://frontend:8080',
     experimentalStudio: true,
   },
 });

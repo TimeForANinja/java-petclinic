@@ -14,7 +14,7 @@
 Cypress.Commands.add("addNewOwner", (firstName, lastName, address, city, telephone) => {
     cy.request(
         "POST", 
-        "http://localhost:9966/petclinic/api/owners",
+        "http://backend:9966/petclinic/api/owners",
         {
             firstName: firstName,
             lastName: lastName,
@@ -33,7 +33,7 @@ Cypress.Commands.add("addNewOwner", (firstName, lastName, address, city, telepho
 Cypress.Commands.add("addNewVet", (firstName, lastName) => {
     cy.request(
         "POST", 
-        "http://localhost:9966/petclinic/api/vets",
+        "http://backend:9966/petclinic/api/vets",
         {
             firstName: firstName,
             lastName: lastName,
@@ -50,7 +50,7 @@ Cypress.Commands.add("addNewVet", (firstName, lastName) => {
 Cypress.Commands.add("addNewVisit", (ownerId, petId, vetId, visitDate, visitDescription) => {
     cy.request(
         "POST", 
-        "http://localhost:9966/petclinic/api/owners/" + ownerId +
+        "http://backend:9966/petclinic/api/owners/" + ownerId +
             "/pets/" + petId + "/vets/" + vetId + "/visits",
         {
             date: visitDate,
@@ -65,7 +65,7 @@ Cypress.Commands.add("addNewVisit", (ownerId, petId, vetId, visitDate, visitDesc
 })
 
 Cypress.Commands.add("addNewPetToOwner", (OwnerFullname, petName, petBirthdate, petType) => {
-    cy.visit("localhost:8080");
+    cy.visit();
     cy.contains("Owners").click();
     cy.contains("Search").click();
 
@@ -80,7 +80,7 @@ Cypress.Commands.add("addNewPetToOwner", (OwnerFullname, petName, petBirthdate, 
 })
 
 Cypress.Commands.add("deleteVet", (vetFullname) => {
-    cy.visit("localhost:8080");
+    cy.visit();
     cy.contains("Veterinarians").click();
     cy.contains("All").click();
 
