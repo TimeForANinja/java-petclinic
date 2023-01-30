@@ -14,7 +14,7 @@
 Cypress.Commands.add("addNewOwner", (firstName, lastName, address, city, telephone) => {
     cy.request(
         "POST", 
-        "http://backend:9966/petclinic/api/owners",
+        Cypress.config("backendUrl") + "/petclinic/api/owners",
         {
             firstName: firstName,
             lastName: lastName,
@@ -33,7 +33,7 @@ Cypress.Commands.add("addNewOwner", (firstName, lastName, address, city, telepho
 Cypress.Commands.add("addNewVet", (firstName, lastName) => {
     cy.request(
         "POST", 
-        "http://backend:9966/petclinic/api/vets",
+        Cypress.config("backendUrl") + "/petclinic/api/vets",
         {
             firstName: firstName,
             lastName: lastName,
@@ -50,7 +50,7 @@ Cypress.Commands.add("addNewVet", (firstName, lastName) => {
 Cypress.Commands.add("addNewVisit", (ownerId, petId, vetId, visitDate, visitDescription) => {
     cy.request(
         "POST", 
-        "http://backend:9966/petclinic/api/owners/" + ownerId +
+        Cypress.config("backendUrl") + "/petclinic/api/owners/" + ownerId +
             "/pets/" + petId + "/vets/" + vetId + "/visits",
         {
             date: visitDate,

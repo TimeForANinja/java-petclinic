@@ -2,7 +2,7 @@
 
 describe('Delete an Owner', () => {
   beforeEach(() => {
-    cy.visit();
+    cy.visit(Cypress.config("frontendUrl"));
     // navigate to owners list
     cy.contains('Owners').click();
     cy.contains('Search').click();
@@ -36,7 +36,7 @@ describe('Delete an Owner', () => {
     cy.addNewOwner('Paul', 'Pausten', '131 Paul-Klee-Strasse', 'Bremen', '98427123');
 
     // Reload page to refresh frontend
-    cy.visit();
+    cy.visit(Cypress.config("frontendUrl"));
     // navigate to owners list
     cy.contains('Owners').click();
     cy.contains('Search').click();
@@ -72,7 +72,7 @@ describe('Delete an Owner', () => {
     cy.addNewOwner('Bob', 'Tester', '12 Teststrasse', 'Testhausen', '947120397');
 
     // Reload page to refresh frontend
-    cy.visit();
+    cy.visit(Cypress.config("frontendUrl"));
     // navigate to owners list
     cy.contains('Owners').click();
     cy.contains('Search').click();
@@ -85,7 +85,7 @@ describe('Delete an Owner', () => {
     // no further action needed since cypress confirms "confirm-popups" by default
 
     // User gets thrown back to landing page
-    cy.url().should('equal', 'http://frontend:8080/petclinic/owners');
+    cy.url().should('equal', Cypress.config("frontendUrl") + '/petclinic/owners');
 
     // Check if owner is not shown in owner search list "he is deleted"
     // navigate to owners list
