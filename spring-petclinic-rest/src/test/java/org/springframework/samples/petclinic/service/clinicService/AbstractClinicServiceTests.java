@@ -254,6 +254,31 @@ abstract class AbstractClinicServiceTests {
     }
 
     @Test
+    void shouldFindVisitByExactDescription() {
+        Collection<Visit> visits = this.clinicService.findVisitBySearchTerm("rabies shot");
+        for (Visit v : visits) {
+            assertThat(v.getDescription().equals("rabies shot"));
+        }
+        assertThat(visits.size()).isEqualTo(2);
+    }
+
+    @Test
+    void shouldFindVisitsByHalfDescription() {
+        // Search for every description that has "ed" in itself, e.g.: neuterED/spayED
+        Collection<Visit> visits = this.clinicService.findVisitBySearchTerm("ed");
+        for (Visit v : visits) {
+            assertThat(v.getDescription()).contains("ed");
+        }
+        assertThat(visits.size()).isEqualTo(3);
+    }
+
+    @Test
+    void shouldFindNoVisitsByNoSearchTerm() {
+        Collection<Visit> visits = this.clinicService.findVisitBySearchTerm("LiLaLuNurDerMannImMondSchautZu");
+        assertThat(visits.size()).isEqualTo(0);
+    }
+
+    @Test
     @Transactional
     void shouldInsertVisit() {
         Collection<Visit> visits = this.clinicService.findAllVisits();

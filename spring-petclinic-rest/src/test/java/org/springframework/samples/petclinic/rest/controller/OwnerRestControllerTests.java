@@ -45,6 +45,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import static org.mockito.BDDMockito.given;
@@ -214,6 +215,45 @@ class OwnerRestControllerTests {
         this.mockMvc.perform(get("/api/owners/")
                 .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @WithMockUser(roles = "OWNER_ADMIN")
+    void testGetOwnersBySearchTermSuccess() throws Exception {
+        Collection<OwnerDto> searchedOwners = new ArrayList<>();
+        for (OwnerDto o : owners) {
+            if (o.getLastName().contains("Davis")) {
+                searchedOwners.add(o);
+            }
+        }
+        given(this.clinicService.findOwnerBySearchTerm("Davis")).willReturn(ownerMapper.toOwners(searchedOwners));
+        this.mockMvc.perform(get("/api/owners/search/Davis")
+            .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType("application/json"))
+            .andExpect(jsonPath("$.[0].id").value(2))
+            .andExpect(jsonPath("$.[0].lastName").value("Davis"))
+            .andExpect(jsonPath("$.[1].id").value(4))
+            .andExpect(jsonPath("$.[1].lastName").value("Davis"));
+    }
+
+    @Test
+    @WithMockUser(roles = "OWNER_ADMIN")
+    void testSearchOwnersNotFound() throws Exception {
+        owners.clear();
+        given(this.clinicService.findOwnerBySearchTerm("Rindfleisch")).willReturn(ownerMapper.toOwners(owners));
+        this.mockMvc.perform(get("/api/owners/search/Rindfleisch")
+                .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @WithMockUser(roles = "OWNER_ADMIN")
+    void testGetOwnersBySearchTermError() throws Exception {
+        given(this.clinicService.findOwnerBySearchTerm("")).willReturn(null);
+        this.mockMvc.perform(get("/api/owners/search/")
+                .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isBadRequest());
     }
 
     @Test

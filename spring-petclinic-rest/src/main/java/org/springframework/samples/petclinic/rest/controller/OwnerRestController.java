@@ -166,7 +166,6 @@ public class OwnerRestController implements OwnersApi {
 
     @PreAuthorize("hasRole(@roles.OWNER_ADMIN)")
     @Override
-    //TODO: Add API Success and Failure tests
     // TODO: Add JUnit tests for every attribute searchTerm can match
     public ResponseEntity<List<OwnerDto>> listOwnersByTerm(String searchTerm) {
         Collection<Owner> owners = this.clinicService.findOwnerBySearchTerm(searchTerm);

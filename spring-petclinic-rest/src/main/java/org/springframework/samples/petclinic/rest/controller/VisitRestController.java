@@ -116,8 +116,6 @@ public class VisitRestController implements VisitsApi {
 
     @PreAuthorize("hasRole(@roles.OWNER_ADMIN)")
     @Override
-    //TODO: Add API Success and Failure tests
-    // TODO: Add JUnit tests for every attribute searchTerm can match
     public ResponseEntity<List<VisitDto>> listVisitsByTerm(String searchTerm) {
         Collection<Visit> visits = this.clinicService.findVisitBySearchTerm(searchTerm);
         if (visits.isEmpty()) {
