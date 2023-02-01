@@ -1,3 +1,5 @@
+screenshots
+videos
 # Everything for the REST subdirectory
 spring-petclinic-rest/target/*
 spring-petclinic-rest/.settings/*

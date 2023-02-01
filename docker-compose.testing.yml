@@ -10,6 +10,9 @@ services:
 
   frontend:
     build: ./spring-petclinic-angular/
+      # using a different dockerfile for CI testing with Github actions
+      context: ./spring-petclinic-angular
+      dockerfile: test.Dockerfile
     ports:
       - "8080:8080"
 
