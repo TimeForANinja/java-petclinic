@@ -9,7 +9,7 @@ services:
       - "9966:9966"
 
   frontend:
-    build: ./spring-petclinic-angular/
+    build:
       # using a different dockerfile for CI testing with Github actions
       context: ./spring-petclinic-angular
       dockerfile: test.Dockerfile
