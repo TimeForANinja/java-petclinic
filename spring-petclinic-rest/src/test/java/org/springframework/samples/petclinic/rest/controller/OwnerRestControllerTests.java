@@ -219,7 +219,7 @@ class OwnerRestControllerTests {
 
     @Test
     @WithMockUser(roles = "OWNER_ADMIN")
-    void testGetOwnersBySearchTermSuccess() throws Exception {
+    void testSearchOwnersSuccess() throws Exception {
         Collection<OwnerDto> searchedOwners = new ArrayList<>();
         for (OwnerDto o : owners) {
             if (o.getLastName().contains("Davis")) {
@@ -249,7 +249,7 @@ class OwnerRestControllerTests {
 
     @Test
     @WithMockUser(roles = "OWNER_ADMIN")
-    void testGetOwnersBySearchTermError() throws Exception {
+    void testSearchOwnersError() throws Exception {
         given(this.clinicService.findOwnerBySearchTerm("")).willReturn(null);
         this.mockMvc.perform(get("/api/owners/search/")
                 .accept(MediaType.APPLICATION_JSON))
