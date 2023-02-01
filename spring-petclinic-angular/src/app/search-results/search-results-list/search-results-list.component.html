@@ -19,11 +19,13 @@
         <td> {{owner.city}} </td>
         <td> {{owner.telephone}} </td>
       </tr>
-
+      <span *ngIf="ownersToShow().length === 0"> No results found</span>
       </tbody>
     </table>
-    <button class="btn btn-default" (click)="showMoreOwners()">Load 10 more</button>
-    <span> Showing {{ minOwners }} to {{ maxOwners }}</span>
+    <span *ngIf="ownersToShow().length !== 0">
+      <button class="btn btn-default" (click)="showMoreOwners()">Load 10 more</button>
+      <span> Showing {{ minOwners }} to {{ maxOwners }}</span>
+    </span>
 
     <h2 style="margin-top:20px;">Pets</h2>
     <table id="pet.table" name="pet.table" class="table table-striped">
@@ -44,10 +46,13 @@
         <td><a routerLink="/owners/{{petOwner.pet.ownerId}}">{{petOwner.owner.firstName}} {{petOwner.owner.lastName}}</a></td>
         <td><button class="btn btn-default" (click)="goToEditPet(petOwner.pet)">Edit Pet</button></td>
       </tr>
+      <span *ngIf="petsToShow().length === 0"> No results found</span>
       </tbody>
     </table>
-    <button class="btn btn-default" (click)="showMorePets()">Load 10 more</button>
-    <span> Showing {{ minPets }} to {{ maxPets }}</span>
+    <span *ngIf="petsToShow().length !== 0">
+      <button class="btn btn-default" (click)="showMorePets()">Load 10 more</button>
+      <span> Showing {{ minPets }} to {{ maxPets }}</span>
+    </span>
 
     <h2 style="margin-top:20px;">Veterinarian</h2>
     <table id="vet.table" name="vet.table" class="table table-striped">
@@ -68,10 +73,13 @@
         </td>
         <td><button class="btn btn-default" (click)="goToEditVet(vet)">Edit Vet</button></td>
       </tr>
+      <span *ngIf="vetsToShow().length === 0"> No results found</span>
       </tbody>
     </table>
-    <button class="btn btn-default" (click)="showMoreVets()">Load 10 more</button>
-    <span> Showing {{ minVets }} to {{ maxVets }}</span>
+    <span *ngIf="vetsToShow().length !== 0">
+      <button class="btn btn-default" (click)="showMoreVets()">Load 10 more</button>
+      <span> Showing {{ minVets }} to {{ maxVets }}</span>
+    </span>
 
     <h2 style="margin-top:20px;">Visits</h2>
     <table id="visit.table" name="visit.table" class="table table-striped">
@@ -94,10 +102,12 @@
           <button class="btn btn-default" (click)="goToEditVisit(vpo.visit)">Edit Visit</button>
         </td>
       </tr>
+      <span *ngIf="visitsToShow().length === 0"> No results found</span>
       </tbody>
     </table>
-    <button class="btn btn-default" (click)="showMoreVisits()">Load 10 more</button>
-    <span> Showing {{ minVisits }} to {{ maxVisits }}</span>
-
+    <span *ngIf="visitsToShow().length !== 0">
+      <button class="btn btn-default" (click)="showMoreVisits()">Load 10 more</button>
+      <span> Showing {{ minVisits }} to {{ maxVisits }}</span>
+    </span>
   </div>
 </div>
