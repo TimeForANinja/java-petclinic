@@ -1,4 +1,4 @@
-name: Cypress Tests using Cypress Docker Image
+name: CI
 # thanks to @TimeForANinjas patience to help me with this, it finally works
 # i am released from this hell that is called programming github actions
 
@@ -10,7 +10,28 @@ on:
   workflow_dispatch:
 
 jobs:
-  cypress-run:
+  run-frontend-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+      
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 16.x
+
+      - name: Install npm
+        run: |
+          cd ./spring-petclinic-angular
+          npm install
+
+      - name: run tests
+        run: |
+          cd ./spring-petclinic-angular
+          npm run test-headless
+
+  run-integration-tests:
+    needs: run-frontend-tests
     runs-on: ubuntu-latest
     steps:
       - name: checkout
