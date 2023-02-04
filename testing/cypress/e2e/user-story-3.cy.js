@@ -111,6 +111,9 @@ describe("Show overarching search bar", () => {
         cy.get('.container > :nth-child(3) > .btn').should("exist");
         cy.get('.container > :nth-child(3) > .btn').click();
         cy.get('[id="owner.table"]').contains("Alina");
+        cy.contains('Alina Tester').click();
+        cy.contains('Edit Owner').click();
+        cy.contains('Delete Owner').click();
     })
 
 })
