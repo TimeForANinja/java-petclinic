@@ -43,15 +43,28 @@ describe("Show overarching search bar", () => {
         cy.get('#globalSearch').should("exist");
     })
 
-    // it("Show missing input alert", () => {
-    //     cy.visit(Cypress.config("frontendUrl"));
+    it("Show missing input alert", () => {
+        cy.visit(Cypress.config("frontendUrl"));
+        cy.get('#globalSearch').should("exist");
+        cy.get('#SearchButton').should("exist");
+        cy.get('#SearchButton').click();
+        cy.on('window:alert', (txt) => {
+            expect(txt).to.contains('Please enter a term for the search');
+        });
+
+    })
     //
-    // })
-    //
-    // it("Show no results alert", () => {
-    //     cy.visit(Cypress.config("frontendUrl"));
-    //
-    // })
+    it("Show no results alert", () => {
+        cy.visit(Cypress.config("frontendUrl"));
+        cy.get('#globalSearch').should("exist");
+        cy.get('#SearchButton').should("exist");
+        cy.get('#globalSearch').type("zwzwzzzzzzzzzzzzzzzzzzz")
+        cy.get('#SearchButton').click();
+        cy.get('[id="owner.table"]').contains("No results found")
+        cy.get('[id="pet.table"]').contains("No results found")
+        cy.get('[id="vet.table"]').contains("No results found")
+        cy.get('[id="visit.table"]').contains("No results found")
+    })
     //
     // it("Responses have the right fields", () => {
     //     cy.visit(Cypress.config("frontendUrl"));
