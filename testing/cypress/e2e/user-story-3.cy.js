@@ -60,16 +60,36 @@ describe("Show overarching search bar", () => {
         cy.get('#SearchButton').should("exist");
         cy.get('#globalSearch').type("zwzwzzzzzzzzzzzzzzzzzzz")
         cy.get('#SearchButton').click();
-        cy.get('[id="owner.table"]').contains("No results found")
-        cy.get('[id="pet.table"]').contains("No results found")
-        cy.get('[id="vet.table"]').contains("No results found")
-        cy.get('[id="visit.table"]').contains("No results found")
+        cy.get('[id="owner.table"]').contains("No results found");
+        cy.get('[id="pet.table"]').contains("No results found");
+        cy.get('[id="vet.table"]').contains("No results found");
+        cy.get('[id="visit.table"]').contains("No results found");
     })
     //
-    // it("Responses have the right fields", () => {
-    //     cy.visit(Cypress.config("frontendUrl"));
-    //
-    // })
+    it("Responses have the right fields", () => {
+        cy.visit(Cypress.config("frontendUrl"));
+        cy.get('#globalSearch').should("exist");
+        cy.get('#SearchButton').should("exist");
+        cy.get('#globalSearch').type("George")
+        cy.get('#SearchButton').click();
+        cy.get('[id="owner.table"]').contains("First Name");
+        cy.get('[id="owner.table"]').contains("Address");
+        cy.get('[id="owner.table"]').contains("City");
+        cy.get('[id="owner.table"]').contains("Telephone");
+        cy.get('[id="pet.table"]').contains("Name");
+        cy.get('[id="pet.table"]').contains("Type");
+        cy.get('[id="pet.table"]').contains("Birth Date");
+        cy.get('[id="pet.table"]').contains("Owner");
+        cy.get('[id="pet.table"]').contains("Actions");
+        cy.get('[id="vet.table"]').contains("Name");
+        cy.get('[id="vet.table"]').contains("Specialities");
+        cy.get('[id="vet.table"]').contains("Actions");
+        cy.get('[id="visit.table"]').contains("Visit Date");
+        cy.get('[id="visit.table"]').contains("Description");
+        cy.get('[id="visit.table"]').contains("Owner");
+        cy.get('[id="visit.table"]').contains("Veterinarian");
+        cy.get('[id="visit.table"]').contains("Actions");
+    })
     //
     // it("Maximum 10 Results shown", () => {
     //     cy.visit(Cypress.config("frontendUrl"));
