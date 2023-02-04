@@ -15,6 +15,7 @@
  */
 package org.springframework.samples.petclinic.service.clinicService;
 
+import org.checkerframework.dataflow.qual.TerminatesExecution;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.*;
@@ -26,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -199,6 +201,22 @@ abstract class AbstractClinicServiceTests {
     }
 
     @Test
+    void shouldSearchPetsByName() {
+        Collection<Pet> pets = this.clinicService.findPetBySearchTerm("Lucky");
+        for (Pet p : pets) {
+            assertThat(p.getName().contains("Lucky"));
+        }
+    }
+
+    @Test
+    void shouldSearchPetsByHalfName() {
+        Collection<Pet> pets = this.clinicService.findPetBySearchTerm("cky");
+        for (Pet p : pets) {
+            assertThat(p.getName().contains("cky"));
+        }
+    }
+
+    @Test
     @Transactional
     void shouldDeletePet(){
         Pet pet = this.clinicService.findPetById(1);
@@ -251,6 +269,31 @@ abstract class AbstractClinicServiceTests {
 
         Collection<Visit> vet5Visits = this.clinicService.findVisitsByVetId(5);
         assertThat(vet5Visits.size() == 1);
+    }
+
+    @Test
+    void shouldFindVisitByExactDescription() {
+        Collection<Visit> visits = this.clinicService.findVisitBySearchTerm("rabies shot");
+        for (Visit v : visits) {
+            assertThat(v.getDescription().equals("rabies shot"));
+        }
+        assertThat(visits.size()).isEqualTo(2);
+    }
+
+    @Test
+    void shouldFindVisitsByHalfDescription() {
+        // Search for every description that has "ed" in itself, e.g.: neuterED/spayED
+        Collection<Visit> visits = this.clinicService.findVisitBySearchTerm("ed");
+        for (Visit v : visits) {
+            assertThat(v.getDescription()).contains("ed");
+        }
+        assertThat(visits.size()).isEqualTo(3);
+    }
+
+    @Test
+    void shouldFindNoVisitsByNoSearchTerm() {
+        Collection<Visit> visits = this.clinicService.findVisitBySearchTerm("LiLaLuNurDerMannImMondSchautZu");
+        assertThat(visits.size()).isEqualTo(0);
     }
 
     @Test
@@ -375,6 +418,62 @@ abstract class AbstractClinicServiceTests {
         assertThat(owner1.getFirstName()).isEqualTo("George");
         Owner owner3 = EntityUtils.getById(owners, Owner.class, 3);
         assertThat(owner3.getFirstName()).isEqualTo("Eduardo");
+    }
+
+    @Test
+    void shouldSearchOwnersByFirstName() {
+        List<Owner> owners = new ArrayList<>(this.clinicService.findOwnerBySearchTerm("Harold"));
+        for (Owner o : owners) {
+            assertThat(o.getFirstName()).isEqualTo("Harold");
+        }
+    }
+
+    @Test
+    void shouldSearchOwnersByLastName() {
+        List<Owner> owners = new ArrayList<>(this.clinicService.findOwnerBySearchTerm("Schroeder"));
+        for (Owner o : owners) {
+            assertThat(o.getLastName()).isEqualTo("Schroeder");
+        }
+    }
+
+    @Test
+    void shouldSearchOwnersByAdress() {
+        List<Owner> owners = new ArrayList<>(this.clinicService.findOwnerBySearchTerm("110 W. Liberty St."));
+        for (Owner o : owners) {
+            assertThat(o.getAddress()).isEqualTo("110 W. Liberty St.");
+        }
+    }
+
+    @Test
+    void shouldSearchOwnersByCity() {
+        List<Owner> owners = new ArrayList<>(this.clinicService.findOwnerBySearchTerm("Sun Prairie"));
+        for (Owner o : owners) {
+            assertThat(o.getCity()).isEqualTo("Sun Prairie");
+        }
+    }
+
+    @Test
+    void shouldSearchOwnersByTelephone() {
+        List<Owner> owners = new ArrayList<>(this.clinicService.findOwnerBySearchTerm("6085551023"));
+        for (Owner o : owners) {
+            assertThat(o.getTelephone()).isEqualTo("6085551023");
+        }
+    }
+
+    @Test
+    void shouldSearchOwnersByHalf() {
+        List<Owner> owners = new ArrayList<>(this.clinicService.findOwnerBySearchTerm("Davi"));
+        for (Owner o : owners) {
+            boolean isCorrect = false;
+            if (o.getFirstName().contains("Davi") ||
+                o.getLastName().contains("Davi") ||
+                o.getAddress().contains("Davi") ||
+                o.getCity().contains("Davi") ||
+                o.getTelephone().contains("Davi")) {
+                isCorrect = true;
+            }
+            assertThat(isCorrect).isTrue();
+        }
     }
 
     @Test

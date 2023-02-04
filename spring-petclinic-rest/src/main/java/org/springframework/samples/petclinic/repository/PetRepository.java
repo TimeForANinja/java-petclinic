@@ -58,9 +58,9 @@ public interface PetRepository {
      * @see BaseEntity#isNew
      */
     void save(Pet pet) throws DataAccessException;
-    
+
     /**
-     * Retrieve <code>Pet</code>s from the data store, returning all owners 
+     * Retrieve <code>Pet</code>s from the data store, returning all owners
      *
      * @return a <code>Collection</code> of <code>Pet</code>s (or an empty <code>Collection</code> if none
      * found)
@@ -71,8 +71,16 @@ public interface PetRepository {
      * Delete an <code>Pet</code> to the data store by <code>Pet</code>.
      *
      * @param pet the <code>Pet</code> to delete
-     * 
+     *
      */
 	void delete(Pet pet) throws DataAccessException;
+
+    /**
+     * Retrieve <code>Pet</code>s from the data store, returning all pets and their owners
+     * @param searchTerm
+     * @return a <code>Collection</code> of <code>Pet</code>s (or an empty <code>Collection</code> if none)
+     * @throws DataAccessException
+     */
+    Collection<Pet> findBySearchTerm(String searchTerm) throws DataAccessException;
 
 }

@@ -41,4 +41,13 @@ public interface SpringDataOwnerRepository extends OwnerRepository, Repository<O
     @Override
     @Query("SELECT owner FROM Owner owner left join fetch owner.pets WHERE owner.id =:id")
     Owner findById(@Param("id") int id);
+
+    @Override
+    @Query("SELECT owner FROM Owner owner " +
+        "WHERE owner.firstName LIKE %:searchTerm% OR " +
+        "owner.lastName LIKE %:searchTerm% OR " +
+        "owner.address LIKE %:searchTerm% OR " +
+        "owner.city LIKE %:searchTerm% OR " +
+        "owner.telephone LIKE %:searchTerm%")
+    Collection<Owner> findBySearchTerm(@Param("searchTerm") String searchTerm);
 }

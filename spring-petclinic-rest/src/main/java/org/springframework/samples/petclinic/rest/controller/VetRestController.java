@@ -23,6 +23,7 @@ import org.springframework.samples.petclinic.mapper.VetMapper;
 import org.springframework.samples.petclinic.model.Specialty;
 import org.springframework.samples.petclinic.model.Vet;
 import org.springframework.samples.petclinic.rest.api.VetsApi;
+import org.springframework.samples.petclinic.rest.dto.PetDto;
 import org.springframework.samples.petclinic.rest.dto.VetDto;
 import org.springframework.samples.petclinic.service.ClinicService;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -110,5 +111,18 @@ public class VetRestController implements VetsApi {
         }
         this.clinicService.deleteVet(vet);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PreAuthorize("hasRole(@roles.OWNER_ADMIN)")
+    @Override
+    //TODO: Add API Success and Failure tests
+    // TODO: Add JUnit tests for every attribute searchTerm can match
+    public ResponseEntity<List<VetDto>> listVetsByTerm(String searchTerm) {
+        List<VetDto> vets = new ArrayList<>();
+        vets.addAll(vetMapper.toVetDtos(this.clinicService.findVetBySearchTerm(searchTerm)));
+        if (vets.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(vets, HttpStatus.OK);
     }
 }

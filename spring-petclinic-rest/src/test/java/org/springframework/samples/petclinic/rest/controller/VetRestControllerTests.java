@@ -22,6 +22,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.web.JsonPath;
 import org.springframework.http.MediaType;
 import org.springframework.samples.petclinic.mapper.VetMapper;
 import org.springframework.samples.petclinic.model.Vet;
@@ -36,6 +37,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import static org.mockito.BDDMockito.given;
@@ -135,6 +137,21 @@ class VetRestControllerTests {
         this.mockMvc.perform(get("/api/vets/")
         	.accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @WithMockUser(roles="VET_ADMIN")
+    void testSearchVetsSuccess() throws Exception {
+        /*
+        Collection<Vet> searchedVets = new ArrayList<>();
+        searchedVets.add(vets.get(2));
+        given(this.clinicService.findVetBySearchTerm("Linda")).willReturn(searchedVets);
+        this.mockMvc.perform(get("/api/vets/search/Linda")
+                .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType("application/json"))
+            .andExpect(jsonPath("$.[0].firstName").value("Linda"));
+         */
     }
 
     @Test

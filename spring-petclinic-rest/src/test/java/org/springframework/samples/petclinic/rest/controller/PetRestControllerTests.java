@@ -153,6 +153,43 @@ class PetRestControllerTests {
 
     @Test
     @WithMockUser(roles = "OWNER_ADMIN")
+    void testSearchPetsSuccess() throws Exception {
+        Collection<Pet> searchedPets = new ArrayList<>();
+        for (Pet p : petMapper.toPets(pets)) {
+            if (p.getName().contains("Rosy")) {
+                searchedPets.add(p);
+            }
+        }
+
+        given(this.clinicService.findPetBySearchTerm("Rosy")).willReturn(searchedPets);
+        this.mockMvc.perform(get("/api/pets/search/Rosy")
+                .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType("application/json"))
+            .andExpect(jsonPath("$.[0].name").value("Rosy"));
+    }
+
+    @Test
+    @WithMockUser(roles = "OWNER_ADMIN")
+    void testSearchPetsNotFound() throws Exception {
+        pets.clear();
+        given(this.clinicService.findPetBySearchTerm("MichGibtsNicht")).willReturn(petMapper.toPets(pets));
+        this.mockMvc.perform(get("/api/pets/search/MichGibtsNicht")
+                .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @WithMockUser(roles = "OWNER_ADMIN")
+    void testSearchPetsError() throws Exception {
+        given(this.clinicService.findPetBySearchTerm("")).willReturn(null);
+        this.mockMvc.perform(get("/api/pets/search/")
+                .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @WithMockUser(roles = "OWNER_ADMIN")
     void testUpdatePetSuccess() throws Exception {
         given(this.clinicService.findPetById(3)).willReturn(petMapper.toPet(pets.get(0)));
         PetDto newPet = pets.get(0);

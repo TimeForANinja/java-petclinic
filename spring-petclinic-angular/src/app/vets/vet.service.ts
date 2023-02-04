@@ -47,7 +47,7 @@ export class VetService {
       );
   }
 
-  getVetById(vetId: string): Observable<Vet> {
+  getVetById(vetId: string | number): Observable<Vet> {
     return this.http.get<Vet>((this.entityUrl + '/' + vetId))
       .pipe(
         catchError(this.handlerError('getVetById', {} as Vet))

@@ -164,4 +164,14 @@ public class OwnerRestController implements OwnersApi {
         return new ResponseEntity<>(visitDto, headers, HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasRole(@roles.OWNER_ADMIN)")
+    @Override
+    // TODO: Add JUnit tests for every attribute searchTerm can match
+    public ResponseEntity<List<OwnerDto>> listOwnersByTerm(String searchTerm) {
+        Collection<Owner> owners = this.clinicService.findOwnerBySearchTerm(searchTerm);
+        if (owners.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(ownerMapper.toOwnerDtoCollection(owners), HttpStatus.OK);
+    }
 }

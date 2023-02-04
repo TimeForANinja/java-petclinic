@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.BaseEntity;
+import org.springframework.samples.petclinic.model.Vet;
 import org.springframework.samples.petclinic.model.Visit;
 
 /**
@@ -52,4 +53,11 @@ public interface VisitRepository {
 
 	void delete(Visit visit) throws DataAccessException;
 
+    /**
+     * Retrieve <code>Visit</code>s from the data store, returning all visits
+     * @param searchTerm
+     * @return a <code>Collection</code> of <code>Visit</code>s (or an empty <code>Collection</code> if none)
+     * @throws DataAccessException
+     */
+    List<Visit> findBySearchTerm(String searchTerm) throws DataAccessException;
 }

@@ -54,6 +54,61 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestError'
+  /owners/search/{searchTerm}:
+    get:
+      tags:
+        - owner
+      operationId: listOwnersByTerm
+      summary: Lists owners by a search Term
+      description: Returns an array of owners when the searchTerm matches firstname, 
+                   lastname, adress, city or telephone; Returns an empty array when not.
+      parameters:
+        - name: searchTerm
+          in: path
+          description: Search Term
+          required: true
+          schema:
+            type: string
+            example: Davis
+      responses:
+        200:
+          description: Owner details found and returned.
+          headers:
+            ETag:
+              description: An ID for this version of the response.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Owner'
+        304:
+          description: Not modified.
+          headers:
+            ETag:
+              description: An ID for this version of the response.
+              schema:
+                type: string
+        400:
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestError'
+        404:
+          description: Pet not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestError'
+        500:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestError'
   /owners:
     post:
       tags:
@@ -768,7 +823,48 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestError'
-
+  /pets/search/{searchTerm}:
+    get:
+      tags:
+        - pet
+      operationId: listPetsByTerm
+      summary: Lists pets by a search Term
+      description: Returns an array of pets when the searchTerm matches the name; Returns an empty array when not.
+      parameters:
+        - name: searchTerm
+          in: path
+          description: Search Term
+          required: true
+          schema:
+            type: string
+            example: Leo
+      responses:
+        200:
+          description: Pet details found and returned.
+          headers:
+            ETag:
+              description: An ID for this version of the response.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+        304:
+          description: Not modified.
+          headers:
+            ETag:
+              description: An ID for this version of the response.
+              schema:
+                type: string
+        500:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestError'
   /pets:
     get:
       tags:
@@ -1014,6 +1110,48 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestError'
+        500:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestError'
+  /visits/search/{searchTerm}:
+    get:
+      tags:
+        - vet
+      operationId: listVisitsByTerm
+      summary: Lists visits by a search Term
+      description: Returns an array of visits when the searchTerm matches the description; Returns an empty array when not.
+      parameters:
+        - name: searchTerm
+          in: path
+          description: Search Term
+          required: true
+          schema:
+            type: string
+            example: neutered
+      responses:
+        200:
+          description: Visits details found and returned.
+          headers:
+            ETag:
+              description: An ID for this version of the response.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Visit'
+        304:
+          description: Not modified.
+          headers:
+            ETag:
+              description: An ID for this version of the response.
+              schema:
+                type: string
         500:
           description: Server error.
           content:
@@ -1526,6 +1664,48 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestError'
+        500:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestError'
+  /vets/search/{searchTerm}:
+    get:
+      tags:
+        - vet
+      operationId: listVetsByTerm
+      summary: Lists vets by a search Term
+      description: Returns an array of vets when the searchTerm matches the firstname, lastname or specialty; Returns an empty array when not.
+      parameters:
+        - name: searchTerm
+          in: path
+          description: Search Term
+          required: true
+          schema:
+            type: string
+            example: Mabuse
+      responses:
+        200:
+          description: Pet details found and returned.
+          headers:
+            ETag:
+              description: An ID for this version of the response.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Vet'
+        304:
+          description: Not modified.
+          headers:
+            ETag:
+              description: An ID for this version of the response.
+              schema:
+                type: string
         500:
           description: Server error.
           content:

@@ -19,6 +19,7 @@ package org.springframework.samples.petclinic.rest.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.hamcrest.core.StringContains;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -104,7 +105,6 @@ class VisitRestControllerTests {
     	pet.setOwner(owner);
     	pet.setType(petType);
 
-
     	Visit visit = new Visit();
     	visit.setId(2);
     	visit.setPet(pet);
@@ -162,11 +162,6 @@ class VisitRestControllerTests {
     @Test
     @WithMockUser(roles="OWNER_ADMIN")
     void testGetAllVisitsByVetIdSuccess() throws Exception {
-        for (Visit v : visits) {
-            if (v.getVet().getId() != 3) {
-                visits.remove(v.getId());
-            }
-        }
         given(this.clinicService.findVisitsByVetId(3)).willReturn(visits);
         this.mockMvc.perform(get("/api/visits?vetId=3")
                 .accept(MediaType.APPLICATION_JSON))
@@ -292,4 +287,38 @@ class VisitRestControllerTests {
         	.andExpect(status().isNotFound());
     }
 
+    @Test
+    @WithMockUser(roles="OWNER_ADMIN")
+    void testSearchVisitsSuccess() throws Exception {
+        Collection<Visit> visitsSearch = new ArrayList<>();
+        for (Visit v : visits) {
+            if (v.getDescription().contains("shot")) {
+                visitsSearch.add(v);
+            }
+        }
+        given(this.clinicService.findVisitBySearchTerm("shot")).willReturn(visitsSearch);
+        this.mockMvc.perform(get("/api/visits/search/shot")
+            .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType("application/json"))
+            .andExpect(jsonPath("$.[0].description").value("rabies shot"));
+    }
+
+    @Test
+    @WithMockUser(roles="OWNER_ADMIN")
+    void testSearchVisitsNotFound() throws Exception {
+        visits.clear();
+        given(this.clinicService.findVisitBySearchTerm("BliBlaBlubUndHexhex")).willReturn(visits);
+        this.mockMvc.perform(get("/api/visits/search/BliBlaBlubUndHexhex")
+            .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @WithMockUser(roles="OWNER_ADMIN")
+    void testSearchVisitsError() throws Exception {
+        this.mockMvc.perform(get("/api/visits/search/")
+            .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isBadRequest());
+    }
 }

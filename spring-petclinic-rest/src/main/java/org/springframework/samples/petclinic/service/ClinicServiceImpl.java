@@ -83,7 +83,7 @@ public class ClinicServiceImpl implements ClinicService {
 		petRepository.delete(pet);
 	}
 
-	@Override
+    @Override
 	@Transactional(readOnly = true)
 	public Visit findVisitById(int visitId) throws DataAccessException {
 		Visit visit = null;
@@ -281,7 +281,13 @@ public class ClinicServiceImpl implements ClinicService {
 		return ownerRepository.findByLastName(lastName);
 	}
 
-	@Override
+    @Override
+    @Transactional
+    public Collection<Owner> findOwnerBySearchTerm(String searchTerm) throws DataAccessException {
+        return ownerRepository.findBySearchTerm(searchTerm);
+    }
+
+    @Override
 	@Transactional(readOnly = true)
 	public Collection<Visit> findVisitsByPetId(int petId) {
 		return visitRepository.findByPetId(petId);
@@ -293,4 +299,21 @@ public class ClinicServiceImpl implements ClinicService {
         return visitRepository.findByVetId(vetId);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public Collection<Pet> findPetBySearchTerm(String searchTerm) throws DataAccessException {
+        return petRepository.findBySearchTerm(searchTerm);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Collection<Vet> findVetBySearchTerm(String searchTerm) throws DataAccessException {
+        return vetRepository.findBySearchTerm(searchTerm);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Collection<Visit> findVisitBySearchTerm(String searchTerm) throws DataAccessException {
+        return visitRepository.findBySearchTerm(searchTerm);
+    }
 }
