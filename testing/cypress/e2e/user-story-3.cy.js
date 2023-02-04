@@ -91,14 +91,26 @@ describe("Show overarching search bar", () => {
         cy.get('[id="visit.table"]').contains("Actions");
     })
     //
-    // it("Maximum 10 Results shown", () => {
-    //     cy.visit(Cypress.config("frontendUrl"));
+    it("Maximum 10 Results shown", () => {
+        cy.visit(Cypress.config("frontendUrl"));
+        cy.addNewOwner('Alina', 'Tester', '12 Teststrasse', 'Testhausen', '608555397');
+        cy.get('#globalSearch').should("exist");
+        cy.get('#SearchButton').should("exist");
+        cy.get('#globalSearch').type("6085");
+        cy.get('#SearchButton').click();
+        cy.get('[id="owner.table"] > tr').should("have.length.at.most", 10);
+    })
     //
-    // })
-    //
-    // it("Cycles by 10 Results", () => {
-    //     cy.visit(Cypress.config("frontendUrl"));
-    //
-    // })
+    it("Cycles by 10 Results", () => {
+        cy.visit(Cypress.config("frontendUrl"));
+        cy.get('#globalSearch').should("exist");
+        cy.get('#SearchButton').should("exist");
+        cy.get('#globalSearch').type("6085");
+        cy.get('#SearchButton').click();
+        cy.get('[id="owner.table"]').should('not.contain', 'Alina')
+        cy.get('.container > :nth-child(3) > .btn').should("exist");
+        cy.get('.container > :nth-child(3) > .btn').click();
+        cy.get('[id="owner.table"]').contains("Alina");
+    })
 
 })
