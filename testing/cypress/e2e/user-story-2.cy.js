@@ -14,7 +14,7 @@ describe("Show all visits for a vet", () => {
         cy.get("table").find("thead").contains("Visit Date").should("exist");
         cy.get("table").find("thead").contains("Description").should("exist");
         cy.get("table").find("thead").contains("Owner").should("exist");
-    })
+    });
 
     it("Buttons exist in visit list", () => {
         cy.visit(Cypress.config("frontendUrl"));
@@ -30,8 +30,8 @@ describe("Show all visits for a vet", () => {
             cy.wrap($entry).get("button").contains("Edit Visit").should("exist");
             cy.wrap($entry).get("button").contains("Delete Visit").should("exist");
             cy.wrap($entry).children().eq(2-1).children().should("have.attr", "href");
-        })
-    })
+        });
+    });
 
     it("Delete visit has a confirmation", () => {
         cy.visit(Cypress.config("frontendUrl"));
@@ -50,7 +50,7 @@ describe("Show all visits for a vet", () => {
 
         // Needed since cypress will press ok automatically otherwise and delete the visit
         cy.on("window:confirm", () => false);
-    })
+    });
 
     it("5 next/prev button - cycles by 5 visits", async () => {
         // Create a veterinarian with more than 10 visits
@@ -88,5 +88,5 @@ describe("Show all visits for a vet", () => {
             cy.get(".table > tr").children().first()
                 .children().first().contains("Testtermin 1").should("exist");
         });
-    })
-})
+    });
+});

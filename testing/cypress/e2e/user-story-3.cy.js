@@ -41,7 +41,7 @@ describe("Show overarching search bar", () => {
         cy.get('#globalSearch').should("exist");
         cy.contains("Specialties").click();
         cy.get('#globalSearch').should("exist");
-    })
+    });
 
     it("Show missing input alert", () => {
         cy.visit(Cypress.config("frontendUrl"));
@@ -51,9 +51,8 @@ describe("Show overarching search bar", () => {
         cy.on('window:alert', (txt) => {
             expect(txt).to.contains('Please enter a term for the search');
         });
+    });
 
-    })
-    //
     it("Show no results alert", () => {
         cy.visit(Cypress.config("frontendUrl"));
         cy.get('#globalSearch').should("exist");
@@ -64,8 +63,8 @@ describe("Show overarching search bar", () => {
         cy.get('[id="pet.table"]').contains("No results found");
         cy.get('[id="vet.table"]').contains("No results found");
         cy.get('[id="visit.table"]').contains("No results found");
-    })
-    //
+    });
+
     it("Responses have the right fields", () => {
         cy.visit(Cypress.config("frontendUrl"));
         cy.get('#globalSearch').should("exist");
@@ -89,8 +88,8 @@ describe("Show overarching search bar", () => {
         cy.get('[id="visit.table"]').contains("Owner");
         cy.get('[id="visit.table"]').contains("Veterinarian");
         cy.get('[id="visit.table"]').contains("Actions");
-    })
-    //
+    });
+
     it("Maximum 10 Results shown", () => {
         cy.visit(Cypress.config("frontendUrl"));
         cy.addNewOwner('Alina', 'Tester', '12 Teststrasse', 'Testhausen', '608555397');
@@ -99,8 +98,8 @@ describe("Show overarching search bar", () => {
         cy.get('#globalSearch').type("6085");
         cy.get('#SearchButton').click();
         cy.get('[id="owner.table"] > tr').should("have.length.at.most", 10);
-    })
-    //
+    });
+
     it("Cycles by 10 Results", () => {
         cy.visit(Cypress.config("frontendUrl"));
         cy.get('#globalSearch').should("exist");
@@ -114,6 +113,5 @@ describe("Show overarching search bar", () => {
         cy.contains('Alina Tester').click();
         cy.contains('Edit Owner').click();
         cy.contains('Delete Owner').click();
-    })
-
-})
+    });
+});

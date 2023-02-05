@@ -6,7 +6,7 @@ describe('Delete an Owner', () => {
     // navigate to owners list
     cy.contains('Owners').click();
     cy.contains('Search').click();
-  })
+  });
 
   it('Check if Delete Button exists', () => {
     // press the first entry in the list
@@ -14,7 +14,7 @@ describe('Delete an Owner', () => {
     cy.contains('Edit Owner').click();
 
     cy.contains('Delete Owner').should('exist');
-  })
+  });
 
   it('Check if security check message exists', () => {
     // press the first entry in the list
@@ -30,7 +30,7 @@ describe('Delete an Owner', () => {
 
     // Needed since cypress will press ok otherwise and delete the owner
     cy.on('window:confirm', () => false);
-  })
+  });
 
   it('Cancel deletion of an owner', () => {
     cy.addNewOwner('Paul', 'Pausten', '131 Paul-Klee-Strasse', 'Bremen', '98427123');
@@ -62,7 +62,7 @@ describe('Delete an Owner', () => {
 
     // Check if not deleted owner does still exist
     cy.contains('Paul Pausten').should('exist');
-  })
+  });
 
   /* This testcase suffices since the requirement only specified to delete an owner.
   Since we should not debug or test already implemented functions - and we use the
@@ -92,5 +92,5 @@ describe('Delete an Owner', () => {
     cy.contains('Owners').click();
     cy.contains('Search').click();
     cy.contains('Bob Tester').should('not.exist');
-  })
-})
+  });
+});
