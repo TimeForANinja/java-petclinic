@@ -35,7 +35,9 @@
         <td>{{ vp.visit.date }}</td>
         <td>{{ vp.visit.description }}</td>
         <td>
-          <button class="btn btn-default" (click)="editVisit(vp.visit)" id="editButton">Edit Visit</button>
+          <!-- Removed for CI-Test Purpose
+            <button class="btn btn-default" (click)="editVisit(vp.visit)" id="editButton">Edit Visit</button>
+          -->
           <button class="btn btn-default" (click)="deleteVisit(vp.visit)" id="deleteButton">Delete Visit</button>
         </td>
       </tr>
