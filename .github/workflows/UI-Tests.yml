@@ -30,6 +30,11 @@ jobs:
           cd ./spring-petclinic-angular
           npm run test-headless
 
+      - name: run linter
+        run: |
+          cd ./spring-petclinic-angular
+          npm run-script lint
+
   run-integration-tests:
     needs: run-frontend-tests
     runs-on: ubuntu-latest
