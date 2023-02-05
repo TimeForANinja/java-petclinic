@@ -1,63 +1,14 @@
-screenshots
-videos
-# Everything for the REST subdirectory
-spring-petclinic-rest/target/*
-spring-petclinic-rest/.settings/*
-spring-petclinic-rest/.classpath
-spring-petclinic-rest/.project
-spring-petclinic-rest/.idea
-spring-petclinic-rest/*.iml
-spring-petclinic-rest/target/
-
-spring-petclinic-rest/generated/
-
-# Easier branch switching
-spring-petclinic-rest/springboot-petclinic-client/
-spring-petclinic-rest/springboot-petclinic-server/
-
-# Everything for the Angular subdirectory
-# See http://help.github.com/ignore-files/ for more about ignoring files.
-
-# compiled output
-spring-petclinic-angular//dist
-spring-petclinic-angular//tmp
-spring-petclinic-angular//out-tsc
-
-# dependencies
-#let's see if i can install cypress in this folder now
-spring-petclinic-angular//node_modules
-
 # IDEs and editors
-spring-petclinic-angular//.idea
-spring-petclinic-angular/.project
-spring-petclinic-angular/.classpath
-spring-petclinic-angular/.c9/
-spring-petclinic-angular/*.launch
-spring-petclinic-angular/.settings/
-spring-petclinic-angular/*.sublime-workspace
-
-# IDE - VSCode
-.vscode/
-spring-petclinic-angular/.vscode/*
-spring-petclinic-angular/!.vscode/settings.json
-spring-petclinic-angular/!.vscode/tasks.json
-spring-petclinic-angular/!.vscode/launch.json
-spring-petclinic-angular/!.vscode/extensions.json
-
-# misc
-spring-petclinic-angular//.sass-cache
-spring-petclinic-angular//connect.lock
-spring-petclinic-angular//coverage
-spring-petclinic-angular//libpeerconnection.log
-spring-petclinic-angular/npm-debug.log
-spring-petclinic-angular/testem.log
-spring-petclinic-angular//typings
-
-# e2e
-spring-petclinic-angular//e2e/*.js
-spring-petclinic-angular//e2e/*.map
+.idea
+.project
+.classpath
+.c9
+*.launch
+.settings
+*.sublime-workspace
+.vscode
 
 # System Files
-spring-petclinic-angular/.DS_Store
-spring-petclinic-angular/Thumbs.db
-spring-petclinic-angular/*.iml
+.DS_Store
+Thumbs.db
+*.iml
