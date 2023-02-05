@@ -15,7 +15,6 @@
  */
 package org.springframework.samples.petclinic.service.clinicService;
 
-import org.checkerframework.dataflow.qual.TerminatesExecution;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.*;

@@ -36,7 +36,7 @@ export class AppComponent {
   goToSearchResults(){
     const term = (document.getElementById('globalSearch') as HTMLInputElement).value;
     if (term.length == 0) {
-      alert("Please enter a term for the search");
+      alert('Please enter a term for the search');
       return;
     }
     this.router.navigate(['/search-results/',term]);

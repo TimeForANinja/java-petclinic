@@ -157,8 +157,8 @@ describe('VisitListComponent', () => {
     expect(move5Spy.calls.any()).toBe(true, 'move5 called');
   });
 
-  it("should find a link in the visit-table", function() {
-      const table = document.getElementById("visit-list-table") as HTMLTableElement;
+  it('should find a link in the visit-table', function() {
+      const table = document.getElementById('visit-list-table') as HTMLTableElement;
       let linkExists = false;
 
       // Loop through all rows in the table
@@ -166,7 +166,7 @@ describe('VisitListComponent', () => {
         // Loop through all cells in the row
         for (let j = 0, cell; cell = row.cells[j]; j++) {
           // Check if the cell contains a link
-          if (cell.getElementsByTagName("a").length > 0) {
+          if (cell.getElementsByTagName('a').length > 0) {
             linkExists = true;
             break;
           }
@@ -190,8 +190,8 @@ describe('VisitListComponent', () => {
     expect(url).toBe('owners/'+id);
   });
 */
-  it("should find edit and delete button in the visit-table", function() {
-      const table = document.getElementById("visit-list-table") as HTMLTableElement;
+  it('should find edit and delete button in the visit-table', function() {
+      const table = document.getElementById('visit-list-table') as HTMLTableElement;
       let editButtonExists = false;
       let deleteButtonExists = false;
 
@@ -199,10 +199,10 @@ describe('VisitListComponent', () => {
       for (let i = 0, row; row = table.rows[i]; i++) {
         // Loop through all cells in the row
         for (let j = 0, cell; cell = row.cells[j]; j++) {
-          if (document.getElementById("editButton") != null){
+          if (document.getElementById('editButton') != null){
             editButtonExists = true;
           }
-          if (document.getElementById("deleteButton") != null){
+          if (document.getElementById('deleteButton') != null){
             deleteButtonExists = true;
           }
         }

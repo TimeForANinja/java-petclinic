@@ -64,7 +64,7 @@ export class VisitListComponent implements OnInit {
   }
 
   deleteVisit(visit: Visit) {
-    if(confirm("Are you sure you want to delete this visit?")) {
+    if(confirm('Are you sure you want to delete this visit?')) {
       this.visitService.deleteVisit(visit.id.toString()).subscribe(
         response => {
           this.responseStatus = response;

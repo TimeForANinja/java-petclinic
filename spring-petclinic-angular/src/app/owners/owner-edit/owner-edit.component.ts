@@ -51,7 +51,7 @@ export class OwnerEditComponent implements OnInit {
   }
 
   openDialog(owner: Owner) {
-    if(confirm("Are you sure you want to delete this owner and all his associated pets and visits?")) {
+    if(confirm('Are you sure you want to delete this owner and all his associated pets and visits?')) {
       const ownerId = this.route.snapshot.params.id;
       this.ownerService.deleteOwner(ownerId).subscribe(
         (res) => this.gotoOwners(),
